@@ -2,7 +2,8 @@ import {create} from "zustand";
 import { axiosInstance } from "./axios";
 
 export const useStore = create((set,get)=>({
-    authUser: null,
+    authUser: true,
+    widgetTab: "uniform-inventory",
     
     login: async (data) =>{
         try{
@@ -23,5 +24,8 @@ export const useStore = create((set,get)=>({
         }catch (error){
             //toast when error
         }
+    },
+    setWidgetTab: (tab)=>{
+        set({widgetTab: tab});
     }
 }))
