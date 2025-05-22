@@ -19,14 +19,14 @@ export const signup = async (req,res)=>{
             gmail: GMAIL,
             password: hashedPassword,
             fName: FNAME,
-            lname: LNAME,
+            lName: LNAME,
             username: USERNAME
         });
         //creates token for client then send the new student to Student table
         if (newTeacher){
             generateToken(newTeacher._id,res);
             await newTeacher.save();
-            res.status(201).json({_id: newTeacher._id, username: newTeacher.username});
+            res.status(201).json({id: newTeacher._id, username: newTeacher.username});
         }else{
             res.status(400).json({message:"Invalid user data"});
         }
@@ -37,20 +37,18 @@ export const signup = async (req,res)=>{
 }
 
 export const login =async (req,res)=>{
-    //Handles login, returns student data and jwt
-        const {USN, USNPassword} = req.body;
+    //Handles login, returns teacher data and jwt
+        const {GMAIL, PASSWORD} = req.body;
     try{
-        const student = await Student.findOne({USN});
-        if (!student) return res.status(400).json({message:"Invalid credentials"});
-        const correctPassword = await bcrypt.compare(USNPassword, Student.lmsURNPassword);
+        const teacher = await Teacher.findOne({gmail: GMAIL});
+
+        if (!teacher) return res.status(400).json({message:"Invalid credentials"});
+
+        const correctPassword = await bcrypt.compare(PASSWORD, teacher.password);
         if(!correctPassword) return res.status(400).json({message:"Invalid credentials"});
-        generateToken(student._id,res);
+        generateToken(teacher._id,res);
         res.status(200).json({
-            id: student._id,
-            fname: student.firstName,
-            lname: student.lastName,
-            section: student.section,
-            level: student.yearOrLevel
+            id: teacher._id, username: teacher.username
         });
     }catch(error){
         console.log("Error in login controller:", error.message);
