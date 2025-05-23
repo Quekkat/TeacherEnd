@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { useStore } from "./globalVariables";
+import { useStore } from "../globalVariables";
 import { Link } from "react-router-dom";
+import './SignInPage.css';
+
+
 
 
 const SignInPage = ()=>{

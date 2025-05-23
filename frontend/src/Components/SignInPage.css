@@ -1,0 +1,35 @@
+/* SignInPage.css */
+
+/* Set background image on full page */
+body {
+  background-image: url('../assets/VisionAcademyImg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+
+/* Center the form */
+.login-signup-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    width: 100vw;
+    height: 100vh;
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Optional: Style the form */
+.login-signup-body form {
+  background-color:  rgba(0, 0, 0, 0.7); /* semi-transparent white */
+  padding: 30px;
+  border-radius:12px; 
+  box-shadow: 0 4px 10px white;
+  width: 100%;
+  max-width: 400px;
+}
+
