@@ -20,13 +20,11 @@ const Login =()=>{
                 <h1>Login</h1>
 
                 <div className="input-box">
-                
-                <input type="email" placeholder="Your@email.com" value={formData.GMAIL} onChange={(e)=>setFormData({ ... formData, GMAIL: e.target.value})} required/>
+                <input type="email" placeholder="Email" value={formData.GMAIL} onChange={(e)=>setFormData({ ... formData, GMAIL: e.target.value})} required/>
                 <i class='bx bxs-user' ></i>
                 </div>
 
                 <div className="input-box">
-               
                 <input type="password" placeholder="Password" value={formData.PASSWORD} onChange={(e)=> setFormData({... formData, PASSWORD: e.target.value})} required />
                 <i class='bx bxs-lock-alt' ></i>
                 </div>

@@ -14,20 +14,40 @@ const SignInPage = ()=>{
     signUp(formData);
   };
     return(
-         <div className="login-signup-body">
+
+         <div className="login">
+
             <form onSubmit={handleSubmit}>
-                <p>Email:</p>
-                <input type="email" placeholder="your@email.com" value={formData.GMAIL} onChange={(e)=>setFormData({ ... formData, GMAIL: e.target.value})} required/>
-                <p>password:</p>
-                <input type="password" value={formData.PASSWORD} onChange={(e)=> setFormData({... formData, PASSWORD: e.target.value})} required />
-                <p>First Name</p>
-                <input type="text" value={formData.FNAME} onChange={(e)=>setFormData({...formData, FNAME: e.target.value})} required/>
-                 <p>Last Name</p>
-                <input type="text" value={formData.LNAME} onChange={(e)=>setFormData({...formData, LNAME: e.target.value})} required/>
-                 <p>Username</p>
-                <input type="text" value={formData.USERNAME} onChange={(e)=>setFormData({...formData, USERNAME: e.target.value})} required/>
-                <button type="submit"> login</button>
+                <h1>Sign In</h1>
+
+                <div className="input-box">
+                
+                <input type="email" placeholder="Email" value={formData.GMAIL} onChange={(e)=>setFormData({ ... formData, GMAIL: e.target.value})} required/>
+                </div>
+
+                <div className="input-box">
+
+                <input type="password"  placeholder="Password" value={formData.PASSWORD} onChange={(e)=> setFormData({... formData, PASSWORD: e.target.value})} required />
+                </div>
+
+                <div className="input-box">
+                
+                <input type="text"  placeholder="First Name" value={formData.FNAME} onChange={(e)=>setFormData({...formData, FNAME: e.target.value})} required/>
+                </div>
+                 
+                <div className="input-box">
+
+                <input type="text"  placeholder="Last Name" value={formData.LNAME} onChange={(e)=>setFormData({...formData, LNAME: e.target.value})} required/>
+                </div>
+                 
+                 <div className="input-box">
+                 
+                <input type="text"  placeholder="Username" value={formData.USERNAME} onChange={(e)=>setFormData({...formData, USERNAME: e.target.value})} required/>
+                </div>
+
+                <button type="submit" className="btn"> login</button>
                 <Link to="/login"> login in instead</Link>
+                
             </form>
         </div>
     )

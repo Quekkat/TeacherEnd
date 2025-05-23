@@ -5,14 +5,21 @@
     font-family: "Poppins", sans-serif;
 }
 
+body {
+  background-image: url('../assets/VisionAcademyImg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+}
+
 .login-signup-body h1 {
     font-size: 36px;
     text-align: center;
 }
 
-.login-signup-body{
-
-}
 
 .login-signup-body .input-box {
     position: relative;
