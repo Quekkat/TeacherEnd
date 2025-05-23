@@ -10,7 +10,8 @@ const DashboardTab= ()=>{
             <button onClick={()=>setWidgetTab("verify-teachers")}> Verify Teachers</button>
             <button onClick={()=>setWidgetTab("verify-payment")}> Verify payment</button>
             <button onClick={()=>setWidgetTab("transaction-history")}> Transaction History</button>
-            <button onClick={()=>setWidgetTab("verify-payment")}> Verify Student</button>
+            <button onClick={()=>setWidgetTab("verify-student")}> Verify Student</button>
+            <button onClick={()=>setWidgetTab("add-new-payment")}> Add new payment</button>
             
 
 

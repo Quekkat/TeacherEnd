@@ -15,6 +15,7 @@ const MainPage = ()=>{
         <div>
             <div>
                 <p>left tab container</p>
+                <DashboardTab/>
             </div>
             <div>
                 <p> container</p>
@@ -23,7 +24,8 @@ const MainPage = ()=>{
                 {widgetTab === "verify-teachers" && <VerifyTeachers/>}
                 {widgetTab ==="verify-payment" && <VerifyStudentPayment/>}
                 {widgetTab ==="transaction-history" && <Transaction/>}
-                {widgetTab ==="verify-student" && <VerifyStudentPayment/>}
+                {widgetTab ==="verify-student" && <VerifyStudent/>}
+                {widgetTab ==="add-new-payment" && <AddNewPayment/>}
             </div>
         </div>
     );

@@ -1,7 +1,8 @@
-import { generateToken } from "../lib/utility.js";
-import Student from "../models/studentmodel.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import Teacher from "../models/teachersmodel.js";
+import Student from "../models/studentmodel.js";
+import { generateToken } from "../lib/utility.js";
 
 export const signup = async (req,res)=>{
     const {GMAIL, PASSWORD, FNAME, LNAME, USERNAME}=req.body;
@@ -64,11 +65,32 @@ export const logout =(req,res)=>{
         res.status(500).json({message:"Internal server Error"});
     }
 }
-export const verifyTeacher = (req,res) =>{
+export const verifyTeacher = async (req,res) =>{
+    //TODO:
+    const {ID} = req.body;
+    try{
+        //grabs the sender cookie
+        const cookie = req.cookie.tokencookie;
+        const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
+        //search the unverified teacher
+        const unverifiedTeacher = await Teacher.findByID(ID);
+        if(!unverifiedTeacher) return res.status(400).json({message:"Invalid teacher"});
+        if(unverifiedTeacher.isValidated) return res.status(400).json({message:"Teacher already verified"});
+        if(decoded.targetID === unverifiedTeacher._id) return res.status(400).json({message: "Not allowed to verify self"});
+        const updatedTeacher = await Teacher.updateOne({_id: ID},{$set:{isValidated: true}},{new:true});
+        res.status(200).json({
+            verifiedTeacherID: updatedTeacher._id,
+            validated: updatedTeacher.isValidated
+        })
 
+
+    }catch(error){
+        console.log("error in verify teachers controller", error.message);
+        res.status(500).json({message:"Internal server Error"});
+    }
 }
 
-export const createUniformList = (req,res)=>{
+export const createInventoryItem = (req,res)=>{
 
 }
 export const seeProductList = (req,res) =>{
