@@ -1,8 +1,12 @@
 /* SignInPage.css */
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
 /* Set background image on full page */
 body {
-  background-image: url('../assets/VisionAcademyImg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -13,7 +17,7 @@ body {
 
 
 /* Center the form */
-.login {
+.signIn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +28,7 @@ body {
 }
 
 /* Optional: Style the form */
-.login form {
+.signIn form {
   background-color:  rgba(0, 0, 0, 0.7); /* semi-transparent white */
   padding: 20px;
   border-radius:12px; 
@@ -33,13 +37,13 @@ body {
   max-width: 400px;
 }
 
-.login h1 {
+.signIn h1 {
     font-size: 36px;
     text-align: center;
 }
 
 
-.login .input-box {
+.signIn .input-box {
     position: relative;
     width: 100%;
     height: 50px;
@@ -71,7 +75,7 @@ body {
     font-size: 20px; 
 }
 
-.login .btn {
+.signIn .btn {
     width: 100%;
     height: 45px;
     border: none;
@@ -84,18 +88,18 @@ body {
     font-weight: 600;
 }
 
-.login .register-link{
+.signIn .register-link{
     font-size: 14.5px;
     text-align: center;
     margin-top: 20px;
 }
 
-.register-link .signUp p{
+.register-link .signIn p{
     color: #fff;
     text-decoration: none;
     font-weight: 600;
 }
-.register-link .signUp:hover p{
+.register-link .signIn:hover p{
     text-decoration: underline;
 }
 
