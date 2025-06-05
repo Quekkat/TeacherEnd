@@ -9,7 +9,26 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    currentAmmoun:{
-        type: Number
+    availableAmmount:{
+        type: Number,
+        default:1,
+    },
+    orderedAmmount:{
+        type: Number,
+        default:0,
+    },
+    gcashQrImageLink:{
+        type: String,
+        required:true,
+    },
+    totalAmmount:{
+        type: Number,
+        default: 1,
+    },
+    createdByWho:{
+        typeof: String,
+        required: true,
     }
-})
+});
+const Inventory = mongoose.model("Inventory", userSchema);
+export default Inventory;

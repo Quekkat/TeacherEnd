@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Teacher from "../models/teachersmodel.js";
 import Student from "../models/studentmodel.js";
+import OrderList from "../models/orderlistmodel.js";
+import Inventory from "../models/inventorymodel.js"
 import { generateToken } from "../lib/utility.js";
 
 export const signup = async (req,res)=>{
@@ -81,7 +83,7 @@ export const verifyTeacher = async (req,res) =>{
         res.status(200).json({
             verifiedTeacherID: updatedTeacher._id,
             validated: updatedTeacher.isValidated
-        })
+        });
 
 
     }catch(error){
@@ -90,14 +92,42 @@ export const verifyTeacher = async (req,res) =>{
     }
 }
 
+export const unverifiedTeachersList = async (req,res)=>{
+    try{
+        const unverifiedTeachers = await Teacher.find({isValidated: false});
+        if(!unverifiedTeachers) return res.status(400).json({message: "There are no teachers to be verified"});
+        res.status(200).json(unverifiedTeachers);
+    }catch(error){
+        console.log("Error in unverifiedTeachersList controller:", error.message);
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+
 export const createInventoryItem = (req,res)=>{
+    try{
+        // retrieves data of item to be created
+        const {ITEMNAME, GCASHQR, ITEMIMAGE, PRICE, INITIALAMMOUNT} = req.body;
+        //todo:retrieve id of teacher that added the item
+        
+    }catch(error){
+        console.log("Error in createInventoryItem controller:", error.message);
+        res.status(500).json({message:"Internal server Error"});
+
+    }
 
 }
-export const seeProductList = (req,res) =>{
-
+export const seeProductList = async (req,res) =>{
+    try{
+        const inventory = await Inventory.find({});
+        if(inventory.length <=0) return res.status(404).json({message: "Inventory is empty"});
+        res.status(200).json(inventory);
+    }catch(error){
+        console.log("error in seeProductList controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
 }
 export const seeOrderList = (req, res)=>{
-
+    
 }
 export const addStock = (req,res)=>{
 

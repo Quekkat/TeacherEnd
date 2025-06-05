@@ -1,9 +1,12 @@
 import {create} from "zustand";
 import { axiosInstance } from "./axios";
+import { unverifiedTeachersList } from "../../backend/src/controllers/authcontrollers";
 
 export const useStore = create((set,get)=>({
     authUser: null,
     widgetTab: "uniform-inventory",
+    inventoryList:[],
+    unverifiedTeachersList: [],
     
     login: async (data) =>{
         try{
@@ -22,10 +25,33 @@ export const useStore = create((set,get)=>({
             set({authUser: res.data});
             //add react toast here when success
         }catch (error){
+            console.log(error.response.data.message);
+
             //toast when error
         }
     },
     setWidgetTab: (tab)=>{
         set({widgetTab: tab});
+    },
+
+    getItemList: async()=>{
+        try{
+            const res = await axiosInstance.get("/auth/getinventorylist");
+            set({inventoryList: res.data})
+        }catch(error){
+            console.log(error.response.data.message);
+
+            //toast here
+        }
+    },
+    getUnverifiedTeacherslist: async ()=>{
+        try{
+            const res = await axiosInstance.get("/auth/getunverifiedteachers");
+            set({unverifiedTeachersList: res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+
+            //toast here
+        }
     }
 }))

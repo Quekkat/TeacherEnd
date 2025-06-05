@@ -1,12 +1,12 @@
 import {useStore} from "./globalVariables";
-import InventoryWidget from "./InventoryWidget";
-import CreateNewInventory from"./CreateNewInventoryWidget";
-import VerifyTeachers from "./VerifyTeacherWidget";
+import InventoryWidget from "./Widgets/InventoryWidget";
+import CreateNewInventory from"./Widgets/CreateNewInventoryWidget";
+import VerifyTeachers from "./Widgets/VerifyTeacherWidget";
 import DashboardTab from "./DashboardTab";
-import Transaction from "./TransactionWidget";
-import AddNewPayment from "./AddNewPaymentWidget";
-import VerifyStudent from "./VerifyStudentWidget";
-import VerifyStudentPayment from "./VerifyStudentPaymentWidget";
+import Transaction from "./Widgets/TransactionWidget";
+import AddNewPayment from "./Widgets/AddNewPaymentWidget";
+import VerifyStudent from "./Widgets/VerifyStudentWidget";
+import VerifyStudentPayment from "./Widgets/VerifyStudentPaymentWidget";
 
 
 const MainPage = ()=>{
