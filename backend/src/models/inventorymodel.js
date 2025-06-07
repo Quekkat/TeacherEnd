@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         default: 1,
     },
     createdByWho:{
-        typeof: String,
+        type: String,
         required: true,
     }
 });

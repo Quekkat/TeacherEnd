@@ -108,6 +108,7 @@ export const createInventoryItem = (req,res)=>{
         // retrieves data of item to be created
         const {ITEMNAME, GCASHQR, ITEMIMAGE, PRICE, INITIALAMMOUNT} = req.body;
         //todo:retrieve id of teacher that added the item
+        teacherID = req.teacher._id;
         
     }catch(error){
         console.log("Error in createInventoryItem controller:", error.message);
