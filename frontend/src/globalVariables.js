@@ -1,7 +1,5 @@
 import {create} from "zustand";
 import { axiosInstance } from "./axios";
-import { unverifiedTeachersList } from "../../backend/src/controllers/authcontrollers";
-
 export const useStore = create((set,get)=>({
     authUser: null,
     widgetTab: "uniform-inventory",
