@@ -5,6 +5,7 @@ import Student from "../models/studentmodel.js";
 import OrderList from "../models/orderlistmodel.js";
 import Inventory from "../models/inventorymodel.js"
 import { generateToken } from "../lib/utility.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req,res)=>{
     const {GMAIL, PASSWORD, FNAME, LNAME, USERNAME}=req.body;
@@ -103,12 +104,32 @@ export const unverifiedTeachersList = async (req,res)=>{
     }
 }
 
-export const createInventoryItem = (req,res)=>{
+export const createInventoryItem = async (req,res)=>{
     try{
         // retrieves data of item to be created
         const {ITEMNAME, GCASHQR, ITEMIMAGE, PRICE, INITIALAMMOUNT} = req.body;
-        //todo:retrieve id of teacher that added the item
-        teacherID = req.teacher._id;
+        const teacherID = req.teacher._id;
+        //checks if item already existed in the inventory or not
+        const matchedInventoryName = await Inventory.find({itemName: ITEMNAME});
+        if(matchedInventoryName) return res.status(400).json({message:"Item already existed"});
+
+        //converts item image and gcash qr into cloudinary url
+        const gcashqrcloudinarylink = await cloudinary.uploader.upload(GCASHQR);
+        const imagecloudinarylink = await cloudinary.uploader.upload(ITEMIMAGE);
+
+        //finds the teacher gmail
+        const teachergmail = await Teacher.findOne({_id: teacherID}).select("gmail");
+        
+        //creates new inventory item
+        const newInventoryItem = new Inventory({
+            itemName: ITEMNAME,
+            itemImgLink: imagecloudinarylink.secure_url,
+            availableAmmount: INITIALAMMOUNT,
+            gcashQrImageLink: gcashqrcloudinarylink.secure_url,
+            totalAmmount: INITIALAMMOUNT,
+            createdByWho: teachergmail
+        });
+
         
     }catch(error){
         console.log("Error in createInventoryItem controller:", error.message);
