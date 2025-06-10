@@ -7,6 +7,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 import MainPage from './MainPage';
 import SignInPage from './Components/SignInPage';
 
+
 function App() {
   const {authUser} = useStore();
   return (

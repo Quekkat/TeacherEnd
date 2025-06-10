@@ -4,6 +4,7 @@ const AddnewPayment = ()=>{
     return(
         <div>
             <p>Add new payment</p>
+            
         </div>
     )
 }

@@ -1,0 +1,116 @@
+/* Styling for the main content area of the inventory */
+.inventory-main-content {
+    flex-grow: 1; /* Allows this container to take up available space in its parent (if parent is also a flex container) */
+    padding: 30px; /* Overall padding around the inventory section */
+    background-color: #f0f2f5; /* Light background color similar to your image */
+    box-sizing: border-box; /* Ensures padding is included in the element's total width and height */
+    overflow-y: auto; /* Adds scroll if content overflows vertically */
+}
+
+.inventory-title {
+    font-size: 2em; /* Larger title for "Inventory" */
+    color: #333;
+    margin-bottom: 30px; /* Space below the title */
+    font-weight: 600;
+}
+
+/* Flexbox container for all the inventory item cards */
+.inventory-grid {
+    display: flex; /* Enables Flexbox */
+    flex-wrap: wrap; /* Allows items to wrap to the next line if there's not enough space */
+    gap: 25px; /* Spacing between the inventory item cards */
+    justify-content: flex-start; /* Aligns items to the start of the container */
+    align-items: flex-start; /* Aligns items to the top of the container if they have different heights */
+}
+
+/* Styling for each individual inventory item card */
+.inventory-item-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Stack contents vertically */
+    align-items: center; /* Center content horizontally within the card */
+    text-align: center;
+    width: 280px; /* Fixed width for each card, adjust as needed */
+    flex-shrink: 0; /* Prevents cards from shrinking */
+    box-sizing: border-box; /* Important for consistent sizing */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+}
+
+.inventory-item-card:hover {
+    transform: translateY(-5px); /* Lift card slightly on hover */
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; /* Aligns the QR and product image */
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.item-qr-code {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border: 1px solid #eee; /* Small border around QR */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.item-product-image {
+    width: 100px;
+    height: 120px;
+    object-fit: contain; /* Ensure image fits without distortion */
+}
+
+.item-details {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.item-details p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Take full width of the card */
+    padding-top: 15px;
+    border-top: 1px solid #eee; /* Separator line */
+}
+
+.item-price {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #007bff; /* A prominent blue color for the price */
+}
+
+.restock-button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.restock-button:hover {
+    background-color: #0056b3;
+}

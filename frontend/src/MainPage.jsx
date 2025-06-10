@@ -14,11 +14,11 @@ const MainPage = ()=>{
     return(
         <div>
             <div>
-                <p>left tab container</p>
+                
                 <DashboardTab/>
             </div>
             <div>
-                <p> container</p>
+                
                 {widgetTab ==="inventory" && <InventoryWidget/>}
                 {widgetTab ==="add-new" && <CreateNewInventory/>}
                 {widgetTab === "verify-teachers" && <VerifyTeachers/>}
