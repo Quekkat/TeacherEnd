@@ -1,0 +1,36 @@
+.verify-student-payment-main {
+    min-height: 100vh;
+    width: calc(100vw - 280px);
+    margin-left: 280px;
+    padding: 48px 48px 40px 48px;
+    background: #fff;
+    border-radius: 0 28px 28px 0;
+    box-shadow: 0 12px 40px rgba(79,108,255,0.13), 0 2px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.verify-student-payment-search-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 18px;
+    margin-bottom: 48px; /* More space below search bar */
+    width: 100%;
+    max-width: 600px;
+}
+
+.verify-student-payment-cards-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 24px;
+}
+
+/* You can reuse your .verify-student-card, .verify-student-info, .verify-btn, etc. from your previous CSS */

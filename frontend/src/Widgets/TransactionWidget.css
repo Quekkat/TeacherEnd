@@ -1,0 +1,107 @@
+.transaction-container {
+    min-height: 100vh;
+    width: calc(100vw - 280px);
+    margin-left: 280px;
+    padding: 48px 48px 40px 48px;
+    background: #fff;
+    border-radius: 0 28px 28px 0;
+    box-shadow: 0 12px 40px rgba(79,108,255,0.13), 0 2px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    box-sizing: border-box;
+}
+
+.transaction-search-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.transaction-search-input {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 1.7px solid #b3b9ff;
+    font-size: 1.13rem;
+    background: #f7f8fa;
+    color: #222;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.transaction-search-input:focus {
+    border-color: #4f6cff;
+    background: #eef2ff;
+}
+
+.transaction-search-btn {
+    padding: 15px 36px;
+    background: linear-gradient(90deg, #4f6cff 60%, #6ee7b7 100%);
+    color: #fff;
+    margin-left: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.13rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(79,108,255,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.transaction-search-btn:hover {
+    background: linear-gradient(90deg, #3b53b6 60%, #34d399 100%);
+    box-shadow: 0 4px 16px rgba(79,108,255,0.14);
+}
+
+.transaction-search-btn:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.transaction-cards-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.transaction-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #f7f8fa;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(79,108,255,0.08);
+    padding: 22px 28px;
+    width: 100%;
+    min-width: 320px;
+    max-width: 700px;
+    border: 1.5px solid #e3e9ff;
+    gap: 32px;
+}
+
+.transaction-date {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #4f6cff;
+    min-width: 120px;
+    text-align: left;
+}
+
+.transaction-desc {
+    font-size: 1.08rem;
+    color: #222;
+    font-weight: 500;
+    flex: 1;
+    text-align: left;
+    word-break: break-word;
+}

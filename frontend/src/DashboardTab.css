@@ -19,82 +19,36 @@ body {
     width: 280px;
     height: 100vh;
     background: #151A2E;
-    transition: all 0.4s ease;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-.sidebar.collapsed {
-    width: 85px;
+    overflow-x: hidden;
 }
 
 .sidebar .sidebar-header {
     display: flex;
-    position: relative;
     align-items: center;
     padding: 25px 20px;
-    justify-content: space-between;
 }
 
 .sidebar-header .header-logo img {
     height: 50px;
     width: 50px;
-    display: block;
     object-fit: contain;
     border-radius: 50%;
-}
-
-.sidebar-header .sidebar-toggler {
-    color: black;
-    position: absolute;
-    right: 20px;
-    height: 35px;
-    width: 35px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: #EEF2FF;
-    transition: 0.4s ease;
-}
-
-.sidebar-header .sidebar-toggler:hover {
-    background: #d9e1fd;
-}
-
-.sidebar.collapsed .sidebar-toggler {
-    transform: translate(-4px, 65px);
-}
-
-.sidebar-header .sidebar-toggler span {
-    font-size: 1.75rem;
-    transition: transform 0.4s ease;
-}
-
-.sidebar.collapsed .sidebar-toggler span {
-    transform: rotate(180deg);
 }
 
 .sidebar-nav .nav-list {
     list-style: none;
     display: flex;
+    flex-direction: column;
     gap: 2px;
     padding: 0 15px;
-    flex-direction: column;
-    transform: translateY(15px);
-    transition: transform 0.4s ease;
-}
-
-.sidebar.collapsed .sidebar-nav .primary-nav {
-    transform: translateY(65px);
+    margin-top: 15px;
 }
 
 .sidebar-nav .nav-item {
-    overflow: hidden; /* ✅ Prevent overflow */
+    overflow: hidden;
 }
 
-.sidebar-nav .nav-item .nav-link {
+.sidebar-nav .nav-link {
     color: #fff;
     display: flex;
     gap: 12px;
@@ -106,23 +60,18 @@ body {
     background: none;
     border: 1px solid #151A2E;
     transition: background 0.4s ease, color 0.4s ease;
-    width: 100%; /* ✅ Stay inside parent */
-    overflow: hidden; /* ✅ Hide text overflow */
+    width: 100%;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.sidebar-nav .nav-item:hover > .nav-link {
+.sidebar-nav .nav-link:hover {
     background: #EEF2FF;
     color: #151A2E;
 }
 
-.sidebar-nav .nav-link .nav-label {
+.sidebar-nav .nav-label {
     transition: opacity 0.3s ease;
-}
-
-.sidebar.collapsed .nav-link .nav-label {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .sidebar-nav .secondary-nav {
