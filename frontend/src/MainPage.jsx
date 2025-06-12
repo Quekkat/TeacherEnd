@@ -7,6 +7,7 @@ import Transaction from "./Widgets/TransactionWidget";
 import AddNewPayment from "./Widgets/AddNewPaymentWidget";
 import VerifyStudent from "./Widgets/VerifyStudentWidget";
 import VerifyStudentPayment from "./Widgets/VerifyStudentPaymentWidget";
+import StockList from "./Widgets/StockList";
 
 
 const MainPage = ()=>{
