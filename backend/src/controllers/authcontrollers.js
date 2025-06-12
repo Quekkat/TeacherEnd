@@ -69,7 +69,6 @@ export const logout =(req,res)=>{
     }
 }
 export const verifyTeacher = async (req,res) =>{
-    //TODO:
     const {ID} = req.body;
     try{
         //grabs the sender cookie
@@ -124,7 +123,7 @@ export const createInventoryItem = async (req,res)=>{
         const newInventoryItem = new Inventory({
             itemName: ITEMNAME,
             itemImgLink: imagecloudinarylink.secure_url,
-            availableAmmount: INITIALAMMOUNT,
+            forSaleAmmount: INITIALAMMOUNT,
             gcashQrImageLink: gcashqrcloudinarylink.secure_url,
             totalAmmount: INITIALAMMOUNT,
             createdByWho: teachergmail
@@ -140,7 +139,7 @@ export const createInventoryItem = async (req,res)=>{
 }
 export const seeProductList = async (req,res) =>{
     try{
-        const inventory = await Inventory.find({});
+        const inventory = await Inventory.find({isForSale:true});
         if(inventory.length <=0) return res.status(404).json({message: "Inventory is empty"});
         res.status(200).json(inventory);
     }catch(error){
@@ -148,9 +147,113 @@ export const seeProductList = async (req,res) =>{
         res.status(500).json({message:"Internal server Error"});
     }
 }
-export const seeOrderList = (req, res)=>{
-    
+export const seeOrderList = async (req, res)=>{
+    try{
+        const unverifiedOrderList = OrderList.find({paymentVerified:false}).sort({createdAt:-1});
+        if(!unverifiedOrderList || unverifiedOrderList.length <=0 ) return res.status(404).json({message:"No unverified order"});
+        return res.status(200).json(unverifiedOrderList);
+    }catch(error){
+        console.log("error in seeOrderList controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
 }
-export const addStock = (req,res)=>{
+export const addStock = async (req,res)=>{
+    try{
+        const {ITEMID, AMMOUNT} = req.body;
 
+        //validates if field is met
+        if(!ITEMID||!AMMOUNT){
+            return res.status(400).json({message:"all fields must be met"});
+        }
+
+        //searches that item based on id
+        const itemToRestock = await Inventory.findOneAndUpdate(
+            { _id: ITEMID},
+            { $inc:{forSaleAmmount: AMMOUNT}},
+            {new: true, runValidators:true}
+        );
+        if(!itemToRestock) return res.status(404).json({message:"item doesnt exist or invalid id"});
+        const itemName = itemToRestock.itemName;
+        return res.status(200).json({message: "Item: "+ itemName +" restocked"});
+
+    }catch(error){
+        console.log("error in addStock controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const removeInventoryItem = async (req,res)=>{
+    try{
+        const {ITEMID} = req.body;
+        if (!ITEMID) return res.status(400).json({message:"No id provided"});
+        const removedItem = await Inventory.findOneAndUpdate({_id: ITEMID}, {$set:{isForSale: false}},{new: true});
+        if (!removedItem) return res.status(404).json({message:"Item doesnt exist"});
+        return res.status(200).json({message:"Item removed"});
+    }catch(error){
+        console.log("error in removeInventoryItem controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const verifyPayment = async (req,res)=>{
+    try{
+        const {paymentID} = req.body;
+        if(!paymentID) return res.status(400).json({message:"No id provided"});
+        const verifiedOrder = await OrderList.findByIdAndUpdate(paymentID,{$set:{paymentVerified: true}},{new:true});
+        if(!verifiedOrder) return res.status(404).json({message:"Order doesnt exist"});
+        return res.status(200).json({message: "Order id: " + verifiedOrder._id + "verified"});
+    }catch(error){
+        console.log("error in verifyPayment controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const transactionHistory = async (req,res)=>{
+    try{
+        const transactionHistoryList = await History.find({}).sort({createdAt:-1});
+        if(!transactionHistoryList || transactionHistoryList.length<=0) return res.status(400).json({message:"transaction history empty"});
+        return res.status(200).json(transactionHistoryList);
+    }catch(error){
+        console.log("error in transactionHistory controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const searchTransactionHistory = async (req,res)=>{
+    try{
+        const {SEARCH} = req.body;
+        if(!SEARCH) return res.status(400).json({message:"nothing to serch here"});
+        const result = await History.find({message:{$regex: SEARCH, $options: 'i'}});
+        if(!result || result.length<=0) return res.status(404).json({message:"No results"});
+        return res.status(200).json(result);
+    }catch(error){
+        console.log("error in searchTransactionHistory controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const verifyStudent = async (req,res)=>{
+    try{
+        const {ID} =req.body;
+        if(!ID) return res.status(404).json({message: "student id not provided"});
+        const verifiedStudent = await Student.findByIdAndUpdate(ID,{$set:{validated: true}},{new:true});
+        if(!verifiedStudent) return res.status(404).json({message:"No student found or student doesnt exist"});
+        return res.status(200).json({message:"Student: " + verifiedStudent.firstName + " " + verifiedStudent.lastName + " is verified"});
+    }catch(error){
+        console.log("error in verifyStudent controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const unverifiedStudentList = async (req,res)=>{
+    try{
+        const unverifiedStudentList = await Student.find({validated: false}).select("-lmsURNPassword");
+        if(!unverifiedStudentList || unverifiedStudentList.length<=0) return res.status(400).json({message:"the database is empty or no student to verify"});
+        return res.status(200).json(unverifiedStudentList);
+    }catch(error){
+        console.log("error in unverifiedStudentList controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const addNewVerifiedPaymentToHistory = async (req,res)=>{
+    try{
+        //todo: retrieves field from frontend then search the item then update the item if successful add to history
+    }catch(error){
+        console.log("error in addNewVerifiedPaymentToHistory controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
 }

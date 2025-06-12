@@ -3,7 +3,7 @@ import authRoutes from "./routes/auth.js";
 import dotenv from "dotenv"
 import { connectDB } from "./lib/database.js";
 import cookieparser from "cookie-parser";
-
+//message bla bla
 dotenv.config();
 
 const app = express();

@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem} from "../controllers/authcontrollers.js";
+import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory} from "../controllers/authcontrollers.js";
 import { protectRoutes } from "../lib/protectedroute.js";
 
 const router = express.Router();
@@ -11,5 +11,13 @@ router.put("/verifyteacher", protectRoutes, verifyTeacher);
 router.get("/getinventorylist", protectRoutes, seeProductList);
 router.put("/addNewItem", protectRoutes, createInventoryItem)
 router.get("/getunverifiedteachers", protectRoutes, unverifiedTeachersList);
+router.post("/removeItem", protectRoutes, removeInventoryItem);
+router.post("/verifyPayment", protectRoutes, verifyPayment);
+router.post("/unverifiedOrderList", protectRoutes, seeOrderList);
+router.get("/transactionhistory", protectRoutes, transactionHistory);
+router.post("/searchtransactionhistory", protectRoutes, searchTransactionHistory);
+router.post("/verifystudent", protectRoutes, verifyStudent);
+router.get("/unverifiedstudentlist", protectRoutes, unverifiedStudentList);
+router.post("/addnewpayment", protectRoutes, addNewVerifiedPaymentToHistory);
 
 export default router;

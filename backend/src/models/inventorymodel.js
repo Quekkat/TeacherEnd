@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    availableAmmount:{
+    forSaleAmmount:{
         type: Number,
         default:1,
     },
@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
     createdByWho:{
         type: String,
         required: true,
+    },
+    soldAmmount:{
+        type: Number,
+        default:0,
+    },
+    isForSale:{
+        type: Boolean,
+        default: true,
     }
 });
 const Inventory = mongoose.model("Inventory", userSchema);

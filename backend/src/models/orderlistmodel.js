@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     studentUID:{
         type: String,
         required: true,
+    },
+    paymentVerified:{
+        type: Boolean,
+        default:false,
     }
 },{timestamps:true});
 //date ordered comes from timestamp
