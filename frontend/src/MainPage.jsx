@@ -26,6 +26,7 @@ const MainPage = ()=>{
                 {widgetTab ==="transaction-history" && <Transaction/>}
                 {widgetTab ==="verify-student" && <VerifyStudent/>}
                 {widgetTab ==="add-new-payment" && <AddNewPayment/>}
+                {widgetTab ==="stock-list" && <StockList/>}
             </div>
         </div>
     );

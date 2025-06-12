@@ -57,6 +57,12 @@ const DashboardTab = () => {
               <span className="nav-label">Add New Payment</span>
             </button>
           </li>
+          <li className="nav-item">
+            <button className="nav-link" onClick={() => setWidgetTab("stock-list")}>
+               <span className="material-symbols-rounded">warehouse</span>
+              <span className="nav-label">Stock List</span>
+            </button>
+          </li>
         </ul>
 
         <ul className="nav-list secondary-nav">
