@@ -2,7 +2,7 @@ import {create} from "zustand";
 import { axiosInstance } from "./axios";
 export const useStore = create((set,get)=>({
     authUser: null,
-    widgetTab: "uniform-inventory",
+    widgetTab: "inventory",
     inventoryList:[],
     unverifiedTeachersList: [],
     
@@ -39,6 +39,18 @@ export const useStore = create((set,get)=>({
         }catch(error){
             console.log(error.response.data.message);
 
+            //toast here
+        }
+    },
+
+    createInventoryItem: async (item)=>{
+        try{
+            console.log(item);
+            const res = await axiosInstance.post("/auth/addNewItem", item);
+
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
             //toast here
         }
     },

@@ -9,7 +9,7 @@ router.post("/login", login);
 router.post("/logout", protectRoutes, logout);
 router.put("/verifyteacher", protectRoutes, verifyTeacher);
 router.get("/getinventorylist", protectRoutes, seeProductList);
-router.put("/addNewItem", protectRoutes, createInventoryItem)
+router.post("/addNewItem", protectRoutes, createInventoryItem)
 router.get("/getunverifiedteachers", protectRoutes, unverifiedTeachersList);
 router.post("/removeItem", protectRoutes, removeInventoryItem);
 router.post("/verifyPayment", protectRoutes, verifyPayment);

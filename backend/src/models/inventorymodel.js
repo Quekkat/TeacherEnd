@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
     itemName:{
         type: String,
         required: true,
-        unique:true,
     },
     itemImgLink:{
         type: String,
@@ -36,7 +36,12 @@ const userSchema = new mongoose.Schema({
     isForSale:{
         type: Boolean,
         default: true,
+    },
+    price:{
+        type: Number,
+        required:true,
     }
-});
+}, {timestamps:true});
+
 const Inventory = mongoose.model("Inventory", userSchema);
 export default Inventory;

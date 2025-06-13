@@ -47,6 +47,7 @@ export const login =async (req,res)=>{
         const teacher = await Teacher.findOne({gmail: GMAIL});
 
         if (!teacher) return res.status(400).json({message:"Invalid credentials"});
+        if(! teacher.isValidated) return res.status(400).json({message: "teacher invalid"});
 
         const correctPassword = await bcrypt.compare(PASSWORD, teacher.password);
         if(!correctPassword) return res.status(400).json({message:"Invalid credentials"});
@@ -108,27 +109,43 @@ export const createInventoryItem = async (req,res)=>{
         // retrieves data of item to be created
         const {ITEMNAME, GCASHQR, ITEMIMAGE, PRICE, INITIALAMMOUNT} = req.body;
         const teacherID = req.teacher._id;
+        //todo: validate the item to be created
         //checks if item already existed in the inventory or not
         const matchedInventoryName = await Inventory.find({itemName: ITEMNAME});
-        if(matchedInventoryName) return res.status(400).json({message:"Item already existed"});
-
+        if(matchedInventoryName.length>0) return res.status(400).json({message:"Item already existed: " + matchedInventoryName});
+        console.log("item passed the filter");
         //converts item image and gcash qr into cloudinary url
         const gcashqrcloudinarylink = await cloudinary.uploader.upload(GCASHQR);
         const imagecloudinarylink = await cloudinary.uploader.upload(ITEMIMAGE);
+        console.log("item uploaded to cloudinary");
 
         //finds the teacher gmail
         const teachergmail = await Teacher.findOne({_id: teacherID}).select("gmail");
-        
+        if(!teachergmail)return res.status(400).json({message:"teacher doesnt exist"});
+
+        console.log("creating new item");
         //creates new inventory item
         const newInventoryItem = new Inventory({
             itemName: ITEMNAME,
             itemImgLink: imagecloudinarylink.secure_url,
             forSaleAmmount: INITIALAMMOUNT,
-            gcashQrImageLink: gcashqrcloudinarylink.secure_url,
             totalAmmount: INITIALAMMOUNT,
-            createdByWho: teachergmail
+            gcashQrImageLink: gcashqrcloudinarylink.secure_url,
+            createdByWho: teachergmail,
+            price: PRICE
         });
 
+        newInventoryItem.save()
+        .then(doc => console.log('User saved:', doc))
+        .catch(err => console.error('Error saving user:', err));
+
+        
+        if(newInventoryItem){
+                return res.status(200).json(newInventoryItem);
+        }else{
+            res.status(400).json({message:"Invalid user data"});
+
+        }
         
     }catch(error){
         console.log("Error in createInventoryItem controller:", error.message);
