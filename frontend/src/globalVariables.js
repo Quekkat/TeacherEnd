@@ -37,6 +37,7 @@ export const useStore = create((set,get)=>({
             const res = await axiosInstance.get("/auth/getinventorylist");
             set({inventoryList: res.data});
             console.log(inventoryList);
+
         }catch(error){
             console.log(error.response.data.message);
 
@@ -46,12 +47,10 @@ export const useStore = create((set,get)=>({
 
     createInventoryItem: async (item)=>{
         try{
-            console.log(item);
             const res = await axiosInstance.post("/auth/addNewItem", item);
             console.log(res.data);
+            set({widgetTab: "inventory"});
             await get().getItemList();
-            get().setWidgetTab("inventory");
-
         }catch(error){
             console.log(error.response.data.message);
             //toast here
@@ -64,6 +63,26 @@ export const useStore = create((set,get)=>({
         }catch(error){
             console.log(error.response.data.message);
 
+            //toast here
+        }
+    },
+    restockInventoryItem: async (data)=>{
+        try{
+            const res =await axiosInstance.post("/auth/restock", data);
+            console.log(res.data);
+            await get().getItemList();
+        }catch(error){
+            console.log(error.response.data.message);
+            //toast here
+        }
+    },
+    removeInventoryItem: async (data) =>{
+        try{
+            const res = await axiosInstance.post("/auth/removeItem", data);
+            console.log(res.data);
+            await get().getItemList();
+        }catch (error){
+            console.log(error.response.data.message);
             //toast here
         }
     }

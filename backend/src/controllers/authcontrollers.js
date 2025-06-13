@@ -52,7 +52,7 @@ export const login =async (req,res)=>{
         const correctPassword = await bcrypt.compare(PASSWORD, teacher.password);
         if(!correctPassword) return res.status(400).json({message:"Invalid credentials"});
         generateToken(teacher._id,res);
-        res.status(200).json({
+        return res.status(200).json({
             id: teacher._id, username: teacher.username
         });
     }catch(error){
@@ -157,8 +157,8 @@ export const createInventoryItem = async (req,res)=>{
 export const seeProductList = async (req,res) =>{
     try{
         const inventory = await Inventory.find({isForSale:true});
-        if(inventory.length <=0) return res.status(404).json({message: "Inventory is empty"});
-        res.status(200).json(inventory);
+        if(inventory.length <=0) return res.status(400).json({message: "Inventory is empty"});
+        return res.status(200).json(inventory);
     }catch(error){
         console.log("error in seeProductList controller");
         res.status(500).json({message:"Internal server Error"});
@@ -186,7 +186,7 @@ export const addStock = async (req,res)=>{
         //searches that item based on id
         const itemToRestock = await Inventory.findOneAndUpdate(
             { _id: ITEMID},
-            { $inc:{forSaleAmmount: AMMOUNT}},
+            { $inc:{forSaleAmmount: AMMOUNT, totalAmmount: AMMOUNT}},
             {new: true, runValidators:true}
         );
         if(!itemToRestock) return res.status(404).json({message:"item doesnt exist or invalid id"});

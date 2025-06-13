@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory} from "../controllers/authcontrollers.js";
+import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory, addStock} from "../controllers/authcontrollers.js";
 import { protectRoutes } from "../lib/protectedroute.js";
 
 const router = express.Router();
@@ -19,5 +19,6 @@ router.post("/searchtransactionhistory", protectRoutes, searchTransactionHistory
 router.post("/verifystudent", protectRoutes, verifyStudent);
 router.get("/unverifiedstudentlist", protectRoutes, unverifiedStudentList);
 router.post("/addnewpayment", protectRoutes, addNewVerifiedPaymentToHistory);
+router.post("/restock", protectRoutes, addStock);
 
 export default router;
