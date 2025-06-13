@@ -11,11 +11,8 @@ const InventoryWidget = () => {
   const { inventoryList, getItemList } = useStore();
 
   useEffect(() => {
-    console.log('Component mounted (page loaded)');
     getItemList();
-    
-    // Place any startup logic here (e.g., fetch data, set up listeners)
-  }, []); // <- empty dependency array ensures it runs only once
+  }, []);
 
   const [search, setSearch] = useState("");
   const [restockAmounts, setRestockAmounts] = useState({});
@@ -42,8 +39,14 @@ const InventoryWidget = () => {
   };
 
   const handleRestock = (id) => {
-    // Your restock logic here
     alert(`Restock ${restockAmounts[id] || 1} for item ${id}`);
+  };
+
+  const handleRemove = (id) => {
+    setRestockAmounts(prev => ({
+      ...prev,
+      [id]: 1
+    }));
   };
 
   return (
@@ -103,7 +106,7 @@ const InventoryWidget = () => {
                         className="restock-qty-input"
                         type="number"
                         min={1}
-                        value={restockAmounts[id] || 1}
+                        value={restockAmounts[id] || ""}
                         onChange={e => handleAmountChange(id, Number(e.target.value))}
                       />
                       <button
@@ -117,6 +120,11 @@ const InventoryWidget = () => {
                       onClick={() => handleRestock(id)}
                       type="button"
                     >Restock</button>
+                    <button
+                      className="remove-btn"
+                      onClick={() => handleRemove(id)}
+                      type="button"
+                    >Remove</button>
                   </div>
                 </div>
               </div>

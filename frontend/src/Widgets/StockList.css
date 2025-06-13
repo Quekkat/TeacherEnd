@@ -1,0 +1,93 @@
+.stocklist-table-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    background: none;
+    margin-left: 350px;
+}
+
+
+.stocklist-table {
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(79,108,255,0.13);
+    overflow: hidden;
+    font-size: 1rem;         /* Even bigger font */
+    min-width: 1000px;         /* Wider minimum */
+    max-width: 1200px;         /* Wider maximum */
+    margin: 64px 0;
+    width: 100%;
+}
+
+.stocklist-table caption {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: #23408e;
+    padding: 20px 0 16px 0;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid #23408e;
+}
+
+.stocklist-table th, .stocklist-table td {
+    padding: 28px 40px;         /* More padding */
+    text-align: center;
+    border: 1px solid #23408e;
+}
+
+.stocklist-table th {
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.row-label {
+    font-weight: 700;
+    text-align: left;
+    color: #23408e;
+    background: #f7f8fa;
+    font-size: 1.1em;
+}
+
+.row-label.available,
+.row-label.sold,
+.row-label.ordered {
+    color: #f2994a;
+}
+
+.stocklist-table input[type="number"] {
+    width: 70px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 1.3rem;
+    color: #23408e;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.stocklist-total-row .total-label {
+    font-weight: 700;
+    color: #23408e;
+    background: #f7f8fa;
+    text-align: left;
+    font-size: 1.15em;
+}
+
+.stocklist-total-row .total-value {
+    text-align: right;
+    background: #f7f8fa;
+}
+
+.stocklist-total-row input[type="number"] {
+    font-weight: 900;
+    color: #23408e;
+    background: transparent;
+    border: none;
+    width: 90px;
+    font-size: 1.3rem;
+    text-align: right;
+}
