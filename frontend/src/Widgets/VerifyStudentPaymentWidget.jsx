@@ -67,11 +67,11 @@ const VerifyStudentPayment = () => {
                     <div className="verify-student-card" key={idx}>
                         <div className="verify-student-info">
                             <div className="verify-student-email">{student.email}</div>
-                            <div className="verify-student-label">Username: <span>{student.username}</span></div>
-                            <div className="verify-student-label">First Name: <span>{student.firstName}</span></div>
-                            <div className="verify-student-label">Last Name: <span>{student.lastName}</span></div>
-                            <div className="verify-student-label">Section: <span>{student.section}</span></div>
-                            <div className="verify-student-label">Year/Level: <span>{student.yearOrLevel}</span></div>
+                            <div className="verify-student-label"><span className="label-bold">Username:</span> {student.username}</div>
+                            <div className="verify-student-label"><span className="label-bold">First Name:</span> {student.firstName}</div>
+                            <div className="verify-student-label"><span className="label-bold">Last Name:</span> {student.lastName}</div>
+                            <div className="verify-student-label"><span className="label-bold">Section:</span> {student.section}</div>
+                            <div className="verify-student-label"><span className="label-bold">Year/Level:</span> {student.yearOrLevel}</div>
                         </div>
                         <div className="verify-student-actions">
                             <button className="verify-btn">Verify</button>

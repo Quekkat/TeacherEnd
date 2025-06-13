@@ -194,3 +194,71 @@
     background: linear-gradient(90deg, #3b53b6 60%, #34d399 100%);
     box-shadow: 0 4px 16px rgba(79,108,255,0.14);
 }
+
+/* Restock row layout */
+.restock-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    gap: 12px;
+}
+
+/* Quantity group */
+.restock-qty-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.restock-qty-btn {
+    background: #4f6cff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restock-qty-btn:hover {
+    background: #3b53b6;
+}
+
+.restock-qty-input {
+    width: 48px;
+    text-align: center;
+    font-size: 1.08rem;
+    padding: 6px 0;
+    border: 1.5px solid #b3b9ff;
+    border-radius: 6px;
+    background: #f7f8fa;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Small restock button on right */
+.restock-btn {
+    padding: 7px 18px;
+    background: linear-gradient(90deg, #4f6cff 60%, #6ee7b7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(79,108,255,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-left: auto;
+}
+
+.restock-btn:hover {
+    background: linear-gradient(90deg, #3b53b6 60%, #34d399 100%);
+}

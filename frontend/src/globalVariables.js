@@ -49,7 +49,7 @@ export const useStore = create((set,get)=>({
             console.log(item);
             const res = await axiosInstance.post("/auth/addNewItem", item);
             console.log(res.data);
-            get().getItemList();
+            await get().getItemList();
             get().setWidgetTab("inventory");
 
         }catch(error){
