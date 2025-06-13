@@ -35,7 +35,8 @@ export const useStore = create((set,get)=>({
     getItemList: async()=>{
         try{
             const res = await axiosInstance.get("/auth/getinventorylist");
-            set({inventoryList: res.data})
+            set({inventoryList: res.data});
+            console.log(inventoryList);
         }catch(error){
             console.log(error.response.data.message);
 
@@ -47,8 +48,10 @@ export const useStore = create((set,get)=>({
         try{
             console.log(item);
             const res = await axiosInstance.post("/auth/addNewItem", item);
-
             console.log(res.data);
+            get().getItemList();
+            get().setWidgetTab("inventory");
+
         }catch(error){
             console.log(error.response.data.message);
             //toast here
