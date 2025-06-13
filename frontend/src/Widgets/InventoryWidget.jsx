@@ -20,32 +20,37 @@ const InventoryWidget = () => {
   const handleAmountChange = (id, value) => {
     setRestockAmounts(prev => ({
       ...prev,
-      [id]: Math.max(1, value)
+      [id]: Math.max(0, value)
     }));
   };
 
   const handleIncrement = (id) => {
     setRestockAmounts(prev => ({
       ...prev,
-      [id]: (prev[id] || 1) + 1
+      [id]: (prev[id] ?? 0) + 1
     }));
   };
 
   const handleDecrement = (id) => {
     setRestockAmounts(prev => ({
       ...prev,
-      [id]: Math.max(1, (prev[id] || 1) - 1)
+      [id]: Math.max(0, (prev[id] ?? 0) - 1)
     }));
   };
 
   const handleRestock = (id) => {
-    alert(`Restock ${restockAmounts[id] || 1} for item ${id}`);
+    const amount = restockAmounts[id] ?? 0;
+    if (amount === 0) {
+      alert("Please enter amount number");
+      return;
+    }
+    alert(`Restock ${amount} for item ${id}`);
   };
 
   const handleRemove = (id) => {
     setRestockAmounts(prev => ({
       ...prev,
-      [id]: 1
+      [id]: 0
     }));
   };
 
@@ -105,8 +110,8 @@ const InventoryWidget = () => {
                       <input
                         className="restock-qty-input"
                         type="number"
-                        min={1}
-                        value={restockAmounts[id] || ""}
+                        min={0}
+                        value={restockAmounts[id] ?? 0}
                         onChange={e => handleAmountChange(id, Number(e.target.value))}
                       />
                       <button
