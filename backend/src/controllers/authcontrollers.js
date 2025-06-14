@@ -73,17 +73,22 @@ export const verifyTeacher = async (req,res) =>{
     const {ID} = req.body;
     try{
         //grabs the sender cookie
-        const cookie = req.cookie.tokencookie;
+        const cookie = req.cookies.tokencookie;
         const decoded = jwt.verify(cookie, process.env.JWT_SECRET);
         //search the unverified teacher
-        const unverifiedTeacher = await Teacher.findByID(ID);
+        const unverifiedTeacher = await Teacher.findById(ID);
         if(!unverifiedTeacher) return res.status(400).json({message:"Invalid teacher"});
         if(unverifiedTeacher.isValidated) return res.status(400).json({message:"Teacher already verified"});
-        if(decoded.targetID === unverifiedTeacher._id) return res.status(400).json({message: "Not allowed to verify self"});
+        const doerid = decoded.targetID;
+        const teacherid = unverifiedTeacher._id;
+
+        if(teacherid === teacherid) return res.status(400).json({message: "Not allowed to verify self"});
         const updatedTeacher = await Teacher.updateOne({_id: ID},{$set:{isValidated: true}},{new:true});
         res.status(200).json({
-            verifiedTeacherID: updatedTeacher._id,
-            validated: updatedTeacher.isValidated
+            verifiedTeacherID: teacherid,
+            username: unverifiedTeacher.username,
+            verifiedby: doerid,
+            updatedTeacher: unverifiedTeacher,
         });
 
 

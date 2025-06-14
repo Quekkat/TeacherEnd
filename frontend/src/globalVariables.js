@@ -60,9 +60,20 @@ export const useStore = create((set,get)=>({
         try{
             const res = await axiosInstance.get("/auth/getunverifiedteachers");
             set({unverifiedTeachersList: res.data});
+            console.log(unverifiedTeachersList);
         }catch(error){
             console.log(error.response.data.message);
 
+            //toast here
+        }
+    },
+    verifySelectedTeacher: async (data)=>{
+        try{
+            const res = await axiosInstance.put("/auth/verifyteacher", data);
+            console.log(res.data);
+            await get().getUnverifiedTeacherslist();
+        }catch(error){
+            console.log(error.response.data.message);
             //toast here
         }
     },
