@@ -82,7 +82,7 @@ export const verifyTeacher = async (req,res) =>{
         const doerid = decoded.targetID;
         const teacherid = unverifiedTeacher._id;
 
-        if(teacherid === teacherid) return res.status(400).json({message: "Not allowed to verify self"});
+        if(teacherid === doerid) return res.status(400).json({message: "Not allowed to verify self"});
         const updatedTeacher = await Teacher.updateOne({_id: ID},{$set:{isValidated: true}},{new:true});
         res.status(200).json({
             verifiedTeacherID: teacherid,
