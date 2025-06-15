@@ -3,36 +3,43 @@
     justify-content: center;
     align-items: center;
     min-height: 70vh;
-    background: none;
-    margin-left: 280px;  /* Reduced from 350px to 300px to move table left */
+    background: transparent; /* Remove background */
+    margin-left: 0; /* Remove left margin */
+    padding: 0 15px; /* Add padding instead */
+    width: 100%;
+    max-width: 100%; /* Changed from 1000px to ensure it doesn't overflow container */
+    margin: 30px auto;
+    overflow-x: auto; /* This is critical - allows horizontal scrolling instead of overflow */
+    position: relative;
+    border-radius: 16px;
 }
-
 
 .stocklist-table {
     border-collapse: collapse;
-    background: #fff;
+    background: #fff; /* Keep table background white for readability */
     border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(79,108,255,0.13);
+    box-shadow: 0 8px 40px rgba(79,108,255,0.18); /* Stronger shadow */
     overflow: hidden;
     font-size: 1rem;         /* Even bigger font */
-    min-width: 1000px;         /* Wider minimum */
-    max-width: 1200px;         /* Wider maximum */
-    margin: 64px 0;
-    width: 100%;
+    width: 100%; /* Changed to 100% to fit container */
+    min-width: 100%; /* Removed fixed min-width that was causing overflow */
 }
 
 .stocklist-table caption {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #fff;
     background: #23408e;
     padding: 20px 0 16px 0;
     letter-spacing: 1.5px;
     border-bottom: 2px solid #23408e;
+    position: sticky; /* Keep caption visible during horizontal scroll */
+    top: 0;
+    z-index: 10;
 }
 
 .stocklist-table th, .stocklist-table td {
-    padding: 28px 40px;         /* More padding */
+    padding: 24px;
     text-align: center;
     border: 1px solid #23408e;
 }
@@ -41,7 +48,10 @@
     background: #fff;
     color: #000;
     font-weight: 700;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    position: sticky; /* Keep headers visible during scroll */
+    top: 58px; /* Position below the caption */
+    z-index: 5;
 }
 
 .row-label {
@@ -63,7 +73,7 @@
     border: none;
     background: transparent;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #23408e;
     font-weight: 700;
     pointer-events: none;
@@ -90,4 +100,75 @@
     width: 90px;
     font-size: 1.3rem;
     text-align: right;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .stocklist-table-card {
+        margin-top: 80px; /* Keep this for space under navbar */
+        border-radius: 0;
+    }
+    
+    .stocklist-table {
+        font-size: 0.9rem;
+        min-width: 100%; /* Changed this */
+    }
+    
+    .stocklist-table th, .stocklist-table td {
+        padding: 16px 12px;
+    }
+    
+    .stocklist-table caption {
+        font-size: 1rem;
+        padding: 16px 0;
+    }
+    
+    .stocklist-table input[type="number"] {
+        width: 50px;
+        font-size: 1rem;
+    }
+    
+    .stocklist-total-row input[type="number"] {
+        width: 60px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Very small screens */
+@media screen and (max-width: 480px) {
+    .stocklist-table-card {
+        margin-top: 70px;
+    }
+    
+    .stocklist-table {
+        font-size: 0.8rem;
+    }
+    
+    .stocklist-table th, .stocklist-table td {
+        padding: 12px 8px;
+    }
+    
+    .row-label {
+        font-size: 0.9em;
+    }
+    
+    .stocklist-table input[type="number"] {
+        width: 40px;
+        font-size: 0.9rem;
+    }
+    
+    /* Show scroll indicator on small screens */
+    .stocklist-table-card::after {
+        content: "← Scroll →";
+        display: block;
+        text-align: center;
+        padding: 10px;
+        color: #666;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 8px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }

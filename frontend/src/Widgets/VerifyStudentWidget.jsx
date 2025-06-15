@@ -29,7 +29,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Juan</div>
                         <div><strong>Last Name:</strong> Dela Cruz</div>
                         <div><strong>Year:</strong> Grade 1</div>
-                        <div><strong>Section:</strong> A</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -43,7 +42,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Maria</div>
                         <div><strong>Last Name:</strong> Santos</div>
                         <div><strong>Year:</strong> Grade 2</div>
-                        <div><strong>Section:</strong> B</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -57,7 +55,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Jose</div>
                         <div><strong>Last Name:</strong> Reyes</div>
                         <div><strong>Year:</strong> Grade 3</div>
-                        <div><strong>Section:</strong> C</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -71,7 +68,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Ana</div>
                         <div><strong>Last Name:</strong> Lopez</div>
                         <div><strong>Year:</strong> Grade 4</div>
-                        <div><strong>Section:</strong> D</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -85,7 +81,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Pedro</div>
                         <div><strong>Last Name:</strong> Garcia</div>
                         <div><strong>Year:</strong> Grade 5</div>
-                        <div><strong>Section:</strong> E</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -99,7 +94,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Luisa</div>
                         <div><strong>Last Name:</strong> Torres</div>
                         <div><strong>Year:</strong> Grade 6</div>
-                        <div><strong>Section:</strong> F</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -113,7 +107,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Carlos</div>
                         <div><strong>Last Name:</strong> Martinez</div>
                         <div><strong>Year:</strong> Grade 1</div>
-                        <div><strong>Section:</strong> A</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -127,7 +120,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Sofia</div>
                         <div><strong>Last Name:</strong> Gonzales</div>
                         <div><strong>Year:</strong> Grade 2</div>
-                        <div><strong>Section:</strong> B</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -141,7 +133,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Miguel</div>
                         <div><strong>Last Name:</strong> Hernandez</div>
                         <div><strong>Year:</strong> Grade 3</div>
-                        <div><strong>Section:</strong> C</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>
@@ -155,7 +146,6 @@ const VerifyStudent = () => {
                         <div><strong>First Name:</strong> Isabella</div>
                         <div><strong>Last Name:</strong> Ramirez</div>
                         <div><strong>Year:</strong> Grade 4</div>
-                        <div><strong>Section:</strong> D</div>
                     </div>
                     <button className="verify-btn" onClick={showAlert}>Verify</button>
                 </div>

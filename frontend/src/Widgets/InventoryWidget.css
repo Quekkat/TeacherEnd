@@ -1,42 +1,48 @@
 .inventory-main {
     min-height: 100vh;
-    width: calc(100vw - 280px);
-    margin-left: 280px;
-    padding: 48px 48px 40px 48px;
-    background: #fff;
-    border-radius: 0 28px 28px 0;
+    width: 100%;
+    max-width: 1200px; /* Limit maximum width */
+    padding: 48px 20px;
+    background: transparent; /* Remove white background */
     box-sizing: border-box;
+    margin: 0 auto; /* Center in available space */
+    transition: margin-left 0.3s ease;
 }
 
 .inventory-title {
     text-align: center;
-    color: #4f6cff;
+    color: #151A2E; /* Darker color for better contrast on gradient background */
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 36px;
     letter-spacing: 1px;
 }
 
-.inventory-grid {
+.inventory-cards-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards horizontally */
+    width: 100%;
+    max-width: 600px; /* Limit maximum width for better readability */
     gap: 36px;
+    margin: 0 auto;
 }
 
+/* Keep the card backgrounds white for readability */
 .inventory-card {
-    background: #f7f8fa;
+    background: #fff;
     border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(79,108,255,0.10);
+    box-shadow: 0 4px 24px rgba(79,108,255,0.18); /* Stronger shadow for contrast */
     padding: 48px 40px 40px 40px;
-    min-width: 380px;
-    max-width: 480px;
     width: 100%;
+    max-width: 500px;
+    margin: 0 0 20px 0; /* Add bottom margin for spacing */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 18px;
     border: 1.5px solid #e3e9ff;
+    flex: none; /* Don't grow or shrink */
 }
 
 .inventory-images {
@@ -46,6 +52,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 12px;
+    flex-wrap: wrap;
 }
 
 .inventory-img,
@@ -102,53 +109,6 @@
     text-align: right;
 }
 
-.inventory-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 11px 0;
-    background: linear-gradient(90deg, #4f6cff 60%, #6ee7b7 100%);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.08rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(79,108,255,0.10);
-    transition: background 0.2s, box-shadow 0.2s;
-}
-
-.inventory-btn:hover {
-    background: linear-gradient(90deg, #3b53b6 60%, #34d399 100%);
-    box-shadow: 0 4px 16px rgba(79,108,255,0.14);
-}
-
-/* Two column layout for inventory */
-.inventory-2col {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.inventory-col {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    flex: 1;
-    align-items: center;
-}
-
-/* Make inventory cards a little bigger */
-.inventory-card,
-.big-card {
-    min-width: 380px;
-    max-width: 480px;
-    width: 100%;
-    padding: 48px 40px 40px 40px;
-}
-
 .inventory-search-bar-row {
     display: flex;
     align-items: center;
@@ -203,6 +163,7 @@
     align-items: center;
     gap: 12px;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 /* Quantity group */
@@ -279,4 +240,71 @@
 
 .remove-btn:hover {
     background: #d9363e;
+}
+
+/* No results state */
+.no-results {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(79,108,255,0.15);
+    padding: 24px;
+    text-align: center;
+    margin: 0 auto 20px;
+    max-width: 500px;
+    width: 100%;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Responsive design */
+@media screen and (max-width: 991px) {
+    .inventory-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+        border-radius: 0;
+    }
+    
+    .inventory-search-bar-row {
+        flex-direction: column;
+    }
+    
+    .inventory-search-btn {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .inventory-title {
+        font-size: 1.5rem;
+        margin-top: 60px;
+    }
+    
+    .inventory-card {
+        min-width: 100%;
+        max-width: 100%;
+        padding: 24px 20px;
+        flex: 0 1 100%;
+    }
+    
+    .restock-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .restock-btn, .remove-btn {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .inventory-card {
+        flex: 0 1 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .inventory-cards-container {
+        max-width: 1400px;
+    }
 }

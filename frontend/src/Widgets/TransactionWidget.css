@@ -1,16 +1,15 @@
 .transaction-container {
     min-height: 100vh;
-    width: calc(100vw - 280px);
-    margin-left: 280px;
-    padding: 48px 48px 40px 48px;
-    background: #fff;
-    border-radius: 0 28px 28px 0;
-    box-shadow: 0 12px 40px rgba(79,108,255,0.13), 0 2px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 1000px; /* Set a max-width for better readability */
+    padding: 48px 20px;
+    background: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 36px;
     box-sizing: border-box;
+    margin: 0 auto; /* Center the container */
 }
 
 .transaction-search-bar-row {
@@ -25,7 +24,7 @@
 
 .transaction-search-input {
     width: 100%;
-    padding: 18px 22px;
+    padding: 16px 20px;
     border-radius: 14px;
     border: 1.7px solid #b3b9ff;
     font-size: 1.13rem;
@@ -33,6 +32,7 @@
     color: #222;
     transition: border-color 0.2s;
     outline: none;
+    flex: 1;
 }
 
 .transaction-search-input:focus {
@@ -41,10 +41,9 @@
 }
 
 .transaction-search-btn {
-    padding: 15px 36px;
+    padding: 14px 28px;
     background: linear-gradient(90deg, #4f6cff 60%, #6ee7b7 100%);
     color: #fff;
-    margin-left: 16px;
     border: none;
     border-radius: 12px;
     font-size: 1.13rem;
@@ -52,6 +51,7 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(79,108,255,0.10);
     transition: background 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
 }
 
 .transaction-search-btn:hover {
@@ -59,49 +59,138 @@
     box-shadow: 0 4px 16px rgba(79,108,255,0.14);
 }
 
-.transaction-search-btn:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
-}
-
 .transaction-cards-center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
 }
 
+/* Updated card style to display vertically */
 .transaction-card {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: #f7f8fa;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(79,108,255,0.08);
-    padding: 22px 28px;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    background: #fff;
+    border-radius: 24px; /* Increased roundness */
+    box-shadow: 0 8px 30px rgba(79,108,255,0.12);
+    padding: 26px 28px;
     width: 100%;
-    min-width: 320px;
-    max-width: 700px;
-    border: 1.5px solid #e3e9ff;
-    gap: 32px;
+    border: none; /* Remove border */
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-align: center; /* Center all text content */
+}
+
+/* Add a subtle top curve design element */
+.transaction-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #4f6cff, #6ee7b7);
+    border-radius: 6px;
+}
+
+.transaction-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(79,108,255,0.18);
 }
 
 .transaction-date {
-    font-size: 1.13rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: #4f6cff;
-    min-width: 120px;
-    text-align: left;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eaeeff;
+    width: 100%;
+    text-align: center; /* Center date text */
+    padding-left: 0; /* Remove left padding */
+}
+
+.transaction-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 0; /* Remove left padding */
+    align-items: center; /* Center content */
+    width: 100%;
 }
 
 .transaction-desc {
-    font-size: 1.08rem;
+    font-size: 1.1rem;
     color: #222;
     font-weight: 500;
-    flex: 1;
-    text-align: left;
-    word-break: break-word;
+    text-align: center; /* Center description text */
+}
+
+.transaction-person {
+    font-size: 1rem;
+    color: #555;
+    font-weight: 400;
+    text-align: center; /* Center person text */
+}
+
+/* Add a title for the transactions */
+.transaction-title {
+    text-align: center;
+    color: #151A2E;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+}
+
+/* No results message style */
+.no-results {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(79,108,255,0.15);
+    padding: 24px;
+    text-align: center;
+    margin: 0 auto 20px;
+    max-width: 500px;
+    width: 100%;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .transaction-container {
+        padding: 30px 15px;
+    }
+    
+    .transaction-search-bar-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .transaction-search-btn {
+        width: 100%;
+        padding: 12px 0;
+    }
+    
+    .transaction-date {
+        font-size: 1.1rem;
+    }
+    
+    .transaction-desc {
+        font-size: 1rem;
+    }
+    
+    .transaction-person {
+        font-size: 0.95rem;
+    }
+    
+    .transaction-title {
+        font-size: 1.6rem;
+        margin-top: 20px;
+    }
 }

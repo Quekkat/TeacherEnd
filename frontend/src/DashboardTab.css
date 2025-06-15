@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@400;500;600;700&display=swap');
 
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    background: linear-gradient(#F1F3FF, #CBD4FF);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,11 +16,48 @@
     font-family: "Poppins", serif;
 }
 
-body {
-    min-height: 100vh;
-    background: linear-gradient(#F1F3FF, #CBD4FF);
+/* Menu toggle button */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    background: #151A2E;    /* Kept dark background */
+    color: #fff;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25); /* Increased shadow for visibility */
+    transition: background 0.3s;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9; /* Make sure it's not transparent */
+    border: 2px solid rgba(255,255,255,0.1); /* Add subtle border */
 }
 
+.menu-toggle:hover {
+    background: #4f6cff;
+}
+
+.menu-toggle .material-symbols-rounded {
+    font-size: 26px;
+}
+
+/* Close button */
+.close-menu {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: 0;
@@ -20,17 +66,21 @@ body {
     height: 100vh;
     background: #151A2E;
     overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
 }
 
 .sidebar .sidebar-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 25px 20px;
 }
 
 .sidebar-header .header-logo img {
-    height: 50px;
-    width: 50px;
+    height: 40px;        /* Reduced from 50px */
+    width: 40px;         /* Reduced from 50px */
     object-fit: contain;
     border-radius: 50%;
 }
@@ -45,7 +95,7 @@ body {
 }
 
 .sidebar-nav .nav-item {
-    overflow: hidden;
+    width: 100%;
 }
 
 .sidebar-nav .nav-link {
@@ -63,6 +113,7 @@ body {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .sidebar-nav .nav-link:hover {
@@ -74,9 +125,45 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.sidebar-nav .secondary-nav {
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    background: #151A2E;
+/* Logout item styling */
+.logout-item {
+    margin-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.logout-item .nav-link {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.logout-item .nav-link:hover {
+    background: rgba(255, 70, 70, 0.1);
+    color: #ff4d4f;
+}
+
+/* Responsive design */
+@media screen and (max-width: 991px) {
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: 2px 0 20px rgba(0,0,0,0.2);
+        z-index: 1001;
+        width: 250px; /* Slightly smaller on mobile */
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar-nav {
+        height: calc(100% - 90px);
+    }
+    
+    .nav-link {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
 }

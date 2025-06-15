@@ -1,8 +1,86 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './VerifyStudentPaymentWidget.css';
 
 const VerifyStudentPayment = () => {
+    // Mock data - in a real app this would come from an API
+    const initialStudents = [
+        {
+            email: "student1@gmail.com",
+            username: "studentuser1",
+            firstName: "Juan",
+            lastName: "Dela Cruz",
+            yearLevel: "Grade 1"
+        },
+        {
+            email: "student2@gmail.com",
+            username: "studentuser2",
+            firstName: "Maria",
+            lastName: "Santos",
+            yearLevel: "Grade 2"
+        },
+        {
+            email: "student3@gmail.com",
+            username: "studentuser3",
+            firstName: "Jose",
+            lastName: "Reyes",
+            yearLevel: "Grade 3"
+        },
+        {
+            email: "student4@gmail.com",
+            username: "studentuser4",
+            firstName: "Ana",
+            lastName: "Lopez",
+            yearLevel: "Grade 4"
+        },
+        {
+            email: "student5@gmail.com",
+            username: "studentuser5",
+            firstName: "Pedro",
+            lastName: "Garcia",
+            yearLevel: "Grade 5"
+        },
+        {
+            email: "student6@gmail.com",
+            username: "studentuser6",
+            firstName: "Luisa",
+            lastName: "Torres",
+            yearLevel: "Grade 6"
+        }
+    ];
+
     const [search, setSearch] = useState("");
+    const [filteredStudents, setFilteredStudents] = useState(initialStudents);
+    const [isSearchActive, setIsSearchActive] = useState(false);
+
+    const handleSearch = () => {
+        if (!search.trim()) {
+            // If search is empty, show all students
+            setFilteredStudents(initialStudents);
+            setIsSearchActive(false);
+            return;
+        }
+
+        // Filter students by email, username, first name, last name or year level
+        const searchLower = search.toLowerCase();
+        const filtered = initialStudents.filter(
+            student => 
+                student.email.toLowerCase().includes(searchLower) || 
+                student.username.toLowerCase().includes(searchLower) ||
+                student.firstName.toLowerCase().includes(searchLower) ||
+                student.lastName.toLowerCase().includes(searchLower) ||
+                student.yearLevel.toLowerCase().includes(searchLower)
+        );
+        
+        setFilteredStudents(filtered);
+        setIsSearchActive(true);
+    };
+
+    // Also search when pressing Enter in the input field
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     const showAlert = () => {
         const alert = document.createElement('div');
@@ -23,98 +101,35 @@ const VerifyStudentPayment = () => {
             <div className="verify-student-payment-search-bar-row">
                 <input
                     type="text"
-                    placeholder="Search student by email or username..."
+                    placeholder="Search student by name, email, username or grade..."
                     className="verify-search-input"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onKeyPress={handleKeyPress}
                 />
-                <button className="verify-search-btn">Search</button>
+                <button className="verify-search-btn" onClick={handleSearch}>Search</button>
             </div>
 
+            {/* No results message */}
+            {isSearchActive && filteredStudents.length === 0 && (
+                <div className="no-results">No students found matching "{search}"</div>
+            )}
+
             <div className="verify-student-payment-cards-center">
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student1@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser1</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Juan</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Dela Cruz</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> A</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 1</div>
+                {filteredStudents.map((student, index) => (
+                    <div className="verify-student-card" key={index}>
+                        <div className="verify-student-info">
+                            <div className="verify-student-email">{student.email}</div>
+                            <div className="verify-student-label"><span className="label-bold">Username:</span> {student.username}</div>
+                            <div className="verify-student-label"><span className="label-bold">First Name:</span> {student.firstName}</div>
+                            <div className="verify-student-label"><span className="label-bold">Last Name:</span> {student.lastName}</div>
+                            <div className="verify-student-label"><span className="label-bold">Year/Level:</span> {student.yearLevel}</div>
+                        </div>
+                        <div className="verify-student-actions">
+                            <button className="verify-btn" onClick={showAlert}>Verify</button>
+                        </div>
                     </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
-
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student2@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser2</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Maria</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Santos</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> B</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 2</div>
-                    </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
-
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student3@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser3</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Jose</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Reyes</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> C</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 3</div>
-                    </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
-
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student4@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser4</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Ana</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Lopez</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> D</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 4</div>
-                    </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
-
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student5@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser5</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Pedro</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Garcia</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> E</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 5</div>
-                    </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
-
-                <div className="verify-student-card">
-                    <div className="verify-student-info">
-                        <div className="verify-student-email">student6@gmail.com</div>
-                        <div className="verify-student-label"><span className="label-bold">Username:</span> studentuser6</div>
-                        <div className="verify-student-label"><span className="label-bold">First Name:</span> Luisa</div>
-                        <div className="verify-student-label"><span className="label-bold">Last Name:</span> Torres</div>
-                        <div className="verify-student-label"><span className="label-bold">Section:</span> F</div>
-                        <div className="verify-student-label"><span className="label-bold">Year/Level:</span> Grade 6</div>
-                    </div>
-                    <div className="verify-student-actions">
-                        <button className="verify-btn" onClick={showAlert}>Verify</button>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );

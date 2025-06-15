@@ -1,0 +1,26 @@
+.main-page-container {
+    display: flex;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.main-content {
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 280px);
+    margin-left: 280px;
+    padding: 20px;
+    transition: width 0.3s ease, margin-left 0.3s ease;
+}
+
+/* For responsive design */
+@media screen and (max-width: 991px) {
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 60px 20px 20px; /* Add padding top to account for menu button */
+    }
+}

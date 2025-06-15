@@ -11,17 +11,26 @@
 
 .verify-teachers-container {
     min-height: 100vh;
-    width: calc(100vw - 280px); /* Fills the area next to sidebar */
-    margin-left: 280px;         /* Pushes content right next to sidebar */
-    padding: 48px 48px 40px 48px;
-    background: #fff;
-    border-radius: 0 28px 28px 0;
-    box-shadow: 0 12px 40px rgba(79,108,255,0.13), 0 2px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 1200px;
+    padding: 48px 20px;
+    background: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 36px;
     box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.verify-teachers-title {
+    text-align: center;
+    color: #151A2E; /* Darker color for better contrast */
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin: 0 0 36px 0;
+    letter-spacing: 1.5px;
+    width: 100%;
 }
 
 .verify-search-bar {
@@ -93,14 +102,12 @@
     justify-content: space-between;
     background: #fff;
     border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(79,108,255,0.10);
+    box-shadow: 0 4px 24px rgba(79,108,255,0.18);
     padding: 32px 28px;
     width: 100%;
-    min-width: 380px;
-    max-width: 420px;
+    margin: 10px 0;
     border: 1.5px solid #e3e9ff;
     gap: 20px;            /* Adjusted gap */
-    margin: 15px;
 }
 
 .verify-teacher-info {
@@ -164,16 +171,12 @@
 
 .verify-teacher-cards-center {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 32px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
     width: 100%;
-    max-width: 1400px;       /* Increased from 1200px for more cards per row */
-    padding: 0 24px;
-    margin: 0 auto;          /* Center the grid */
-}
-.verify-teachers-title{
-    color: #4f6cff;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 /* Add these styles for custom alert */
@@ -213,4 +216,38 @@
         transform: translateX(-50%) translateY(0);
         opacity: 1;
     }
+}
+
+/* Add this media query for small screens */
+@media screen and (max-width: 991px) {
+    .verify-teachers-container {
+        padding: 20px;
+    }
+    
+    .verify-search-bar-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .verify-search-input {
+        width: 100%;
+    }
+    
+    .verify-search-btn {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+.no-results {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(79,108,255,0.15);
+    padding: 24px;
+    text-align: center;
+    margin: 0 auto 20px;
+    max-width: 500px;
+    width: 100%;
+    font-size: 1.1rem;
+    color: #666;
 }

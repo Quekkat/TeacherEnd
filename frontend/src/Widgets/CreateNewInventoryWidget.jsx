@@ -52,6 +52,9 @@ const CreateNewInventory = () => {
     return (
         <div className="create-inventory-widget">
             <form onSubmit={handleSubmit}>
+            <div className="form-section">
+                <h2>Add New Product</h2>
+            </div>
             <div className="image-section">
                 <label className="image-upload-box">
                     {formData.ITEMIMAGE ? (
@@ -71,7 +74,6 @@ const CreateNewInventory = () => {
                 </label>
             </div>
             <div className="form-section">
-                <h2>Add New Product</h2>
                 <div className="form-group">
                     <label>Product Name</label>
                     <input type="text" value={formData.ITEMNAME} onChange={(e) => setFormData({ ...formData, ITEMNAME: e.target.value })} placeholder="Enter product name" />
