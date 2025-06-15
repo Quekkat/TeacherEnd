@@ -1,52 +1,12 @@
 import { useState, useEffect } from "react";
 import { useStore } from "../globalVariables";
 import './VerifyTeachersWidget.css';
-import VerifyTeachersCard from "./VerifyTeacherCard";
+import { useStore } from '../globalVariables';
+import { useState } from 'react';
 
 const VerifyTeachers = () => {
     const { unverifiedTeachersList, getUnverifiedTeacherslist, verifySelectedTeacher } = useStore();
     const [search, setSearch] = useState("");
-    const [filteredTeachers, setFilteredTeachers] = useState([]);
-    const [isSearchActive, setIsSearchActive] = useState(false);
-
-    useEffect(() => {
-        getUnverifiedTeacherslist();
-    }, []);
-
-    useEffect(() => {
-        // Reset filtered teachers when the original list changes
-        setFilteredTeachers(unverifiedTeachersList);
-        setIsSearchActive(false);
-    }, [unverifiedTeachersList]);
-
-    const handleSearch = () => {
-        if (!search.trim()) {
-            // If search is empty, show all teachers
-            setFilteredTeachers(unverifiedTeachersList);
-            setIsSearchActive(false);
-            return;
-        }
-
-        // Filter teachers by email, username, first name, or last name
-        const searchLower = search.toLowerCase();
-        const filtered = unverifiedTeachersList.filter(
-            teacher => 
-                teacher.gmail?.toLowerCase().includes(searchLower) || 
-                teacher.username?.toLowerCase().includes(searchLower) ||
-                teacher.fName?.toLowerCase().includes(searchLower) ||
-                teacher.lName?.toLowerCase().includes(searchLower)
-        );
-        
-        setFilteredTeachers(filtered);
-        setIsSearchActive(true);
-    };
-
-    // Also search when pressing Enter in the input field
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleSearch();
-        }
-    };
 
     const showAlert = () => {
         const alert = document.createElement('div');
@@ -78,34 +38,206 @@ const VerifyTeachers = () => {
 
             <h1 className="verify-teachers-title">Verify Teachers</h1>
 
-            {isSearchActive && filteredTeachers.length === 0 && (
-                <div className="no-results">No teachers found matching "{search}"</div>
-            )}
-
             <div className="verify-teacher-cards-center">
-                {(filteredTeachers.length > 0 || isSearchActive ? filteredTeachers : unverifiedTeachersList).map((teacher, index) => (
-                    <div className="verify-teacher-card" key={teacher._id || index}>
-                        <div className="verify-teacher-info">
-                            <div className="verify-teacher-email">{teacher.gmail}</div>
-                            <div className="verify-teacher-label">Username: <span>{teacher.username}</span></div>
-                            <div className="verify-teacher-label">First Name: <span>{teacher.fName}</span></div>
-                            <div className="verify-teacher-label">Last Name: <span>{teacher.lName}</span></div>
-                        </div>
-                        <div className="verify-teacher-actions">
-                            <button 
-                                className="verify-btn" 
-                                onClick={() => {
-                                    showAlert();
-                                    const data = { ID: teacher._id };
-                                    // Uncomment this to actually verify the teacher:
-                                    verifySelectedTeacher(data);
-                                }}
-                            >
-                                Verify
-                            </button>
-                        </div>
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">johnsmith@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>jsmith_123</span></div>
+                        <div className="verify-teacher-label">First Name: <span>John</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Smith</span></div>
                     </div>
-                ))}
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">emily.w@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>emily_wilson</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Emily</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Wilson</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">michael.d@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>mdavis_teacher</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Michael</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Davis</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">sarah.miller@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>smiller_456</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Sarah</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Miller</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">david.anderson@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>danderson_789</span></div>
+                        <div className="verify-teacher-label">First Name: <span>David</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Anderson</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">jennifer.brown@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>jbrown_teacher</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Jennifer</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Brown</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">robert.taylor@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>rtaylor_321</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Robert</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Taylor</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">lisa.white@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>lwhite_654</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Lisa</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>White</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">james.martin@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>jmartin_987</span></div>
+                        <div className="verify-teacher-label">First Name: <span>James</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Martin</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <div className="verify-teacher-card">
+                    <div className="verify-teacher-info">
+                        <div className="verify-teacher-email">patricia.clark@school.edu</div>
+                        <div className="verify-teacher-label">Username: <span>pclark_teacher</span></div>
+                        <div className="verify-teacher-label">First Name: <span>Patricia</span></div>
+                        <div className="verify-teacher-label">Last Name: <span>Clark</span></div>
+                    </div>
+                    <div className="verify-teacher-actions">
+                        <button 
+                            className="verify-btn" 
+                            onClick={() => {
+                                showAlert();
+                                // handleVerify(); // your existing verify logic
+                            }}
+                        >
+                            Verify
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

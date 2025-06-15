@@ -5,6 +5,7 @@ export const useStore = create((set,get)=>({
     widgetTab: "inventory",
     inventoryList:[],
     unverifiedTeachersList: [],
+    unverifiedStudentList:[],
     
     login: async (data) =>{
         try{
@@ -95,6 +96,23 @@ export const useStore = create((set,get)=>({
         }catch (error){
             console.log(error.response.data.message);
             //toast here
+        }
+    },
+    getUnverifiedStudent: async (data)=>{
+        try{
+            const res = await axiosInstance.get("/auth/unverifiedstudentlist");
+            set({unverifiedStudentList: res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    verifySelectedStudent: async(data)=>{
+        try {
+            const res = await axiosInstance.post("/auth/verifystudent", data);
+            console.log(res.data);
+            get().getUnverifiedStudent();
+        } catch (error) {
+            console.log(error.response.data.message);
         }
     }
 }))
