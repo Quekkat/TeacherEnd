@@ -6,6 +6,7 @@ import OrderList from "../models/orderlistmodel.js";
 import Inventory from "../models/inventorymodel.js"
 import { generateToken } from "../lib/utility.js";
 import cloudinary from "../lib/cloudinary.js";
+import History from "../models/historymodel.js";
 
 export const signup = async (req,res)=>{
     const {GMAIL, PASSWORD, FNAME, LNAME, USERNAME}=req.body;
@@ -182,7 +183,7 @@ export const seeOrderList = async (req, res)=>{
 export const addStock = async (req,res)=>{
     try{
         const {ITEMID, AMMOUNT} = req.body;
-
+        const admin= req.teacher;
         //validates if field is met
         if(!ITEMID||!AMMOUNT){
             return res.status(400).json({message:"all fields must be met"});
@@ -196,7 +197,16 @@ export const addStock = async (req,res)=>{
         );
         if(!itemToRestock) return res.status(404).json({message:"item doesnt exist or invalid id"});
         const itemName = itemToRestock.itemName;
-        return res.status(200).json({message: "Item: "+ itemName +" restocked"});
+        const historyMessage = "Item with ID of \"" + itemToRestock._id + "\" called: \"" + itemToRestock.itemName+ "\" have been restocked with the ammount of: "+ AMMOUNT+ ", according to admin name: \"" + admin.gmail;
+        const newHistory = new History({message: historyMessage});
+        if(newHistory){
+            await newHistory.save();
+            res.status(200).json({message: "Item: "+ itemName +" restocked"});
+        }else{
+            return res.status(400).json({message:"Invalid user data"});
+
+        }
+
 
     }catch(error){
         console.log("error in addStock controller");
@@ -277,5 +287,31 @@ export const addNewVerifiedPaymentToHistory = async (req,res)=>{
     }catch(error){
         console.log("error in addNewVerifiedPaymentToHistory controller");
         res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const addNewOrder= async(req,res)=>{
+    try{
+        const {ITEMID, STUDENTURN} = req.body;
+        const teachergmail = req.teacher.gmail;
+        const targetStudent = await Student.findOne({lmsURN: STUDENTURN});
+        if(!targetStudent) return res.status(404).json({message:"Student doesnt exist"});
+        const targetItem = await Inventory.findById(ITEMID);
+        if(!targetItem) return res.status(404).json({message:"Item doesnt exist"});
+        const wasItemChanged = await Inventory.findOneAndUpdate({_id: ITEMID},{$inc:{orderedAmmount: +1,soldAmmount:+1, forSaleAmmount:-1}},{new:true});
+        if(!wasItemChanged) return res.status(404).json({message:"Order failed, item doesnt exist"});
+
+        const historyMessage = "Item: \"" + targetItem.itemName + "\" with item ID of: \"" + targetItem._id + "\" was ordered by student: \"" +targetStudent.firstName + " " + targetStudent.lastName + "\" with a USN of: \"" + targetStudent.lmsURN + "\" through admin: \"" + teachergmail +"\"";
+        const newHistory = new History({
+            message: historyMessage,
+        });
+        if(newHistory){
+            await newHistory.save();
+            res.status(200).json(historyMessage);
+        }else{
+            return res.status(400).json({message:"Invalid user data"});
+
+        }
+    } catch(error){
+
     }
 }

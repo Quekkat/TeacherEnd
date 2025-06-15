@@ -4,7 +4,7 @@ import logo from "./DashboardLogo/logo.png";
 import "./DashboardTab.css";
 
 const DashboardTab = () => {
-  const { setWidgetTab } = useStore();
+  const { setWidgetTab,logout } = useStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -83,7 +83,7 @@ const DashboardTab = () => {
               </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link">
+              <button className="nav-link" onClick={logout}>
                 <span className="material-symbols-rounded">logout</span>
                 <span className="nav-label">Log Out</span>
               </button>

@@ -6,6 +6,8 @@ export const useStore = create((set,get)=>({
     inventoryList:[],
     unverifiedTeachersList: [],
     unverifiedStudentList:[],
+    history:[],
+    unverifiedPayments:[],
     
     login: async (data) =>{
         try{
@@ -110,9 +112,71 @@ export const useStore = create((set,get)=>({
         try {
             const res = await axiosInstance.post("/auth/verifystudent", data);
             console.log(res.data);
+            const alert = document.createElement('div');
+            alert.className = 'custom-alert';
+            alert.innerHTML = `
+                <span class="check-icon">✓</span>
+                <span class="alert-message">Verified</span>
+            `;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
             get().getUnverifiedStudent();
         } catch (error) {
             console.log(error.response.data.message);
         }
+    },
+    addNewOrderItem: async(data)=>{
+        try{
+            const res = await axiosInstance.post("/auth/addNewOrder",data);
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    getTransactionHistory: async ()=>{
+        try{
+            const res = await axiosInstance.get("/auth/transactionhistory");
+            set({history: res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    searchTransactionHistory: async (data)=>{
+        try{
+            const res = await axiosInstance.post("/auth/searchTransactionHistory", data);
+            set({history:res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    logout: async ()=>{
+        try{
+            const res = await axiosInstance.post("/auth/logout");
+            console.log(res.data);
+            set({authUser:null});
+        }catch(error){
+            console.log(error.response.data.message);
+
+        }
+    },
+    getUnverifiedPayment: async ()=>{
+        try {
+          const res = await axiosInstance.get("/auth/unverifiedOrderList");
+          set({unverifiedPayments: res.data});  
+        } catch (error) {
+            console.log(error.response.data.message);
+
+        }
+    },
+    verifyPayment: async (data)=>{
+        try {
+            //verifyPayment
+            const res =await axiosInstance.post("/auth/verifyPayment",data);
+        } catch (error) {
+            console.log(error.response.data.message); 
+        }    
     }
 }))
