@@ -105,5 +105,14 @@ export const useStore = create((set,get)=>({
         }catch(error){
             console.log(error.response.data.message);
         }
+    },
+    verifySelectedStudent: async(data)=>{
+        try {
+            const res = await axiosInstance.post("/auth/verifystudent", data);
+            console.log(res.data);
+            get().getUnverifiedStudent();
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
     }
 }))
