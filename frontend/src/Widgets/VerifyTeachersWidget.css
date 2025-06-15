@@ -89,54 +89,61 @@
 
 .verify-teacher-card {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;  /* Changed from row to column */
     justify-content: space-between;
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 4px 24px rgba(79,108,255,0.10);
     padding: 32px 28px;
     width: 100%;
-    min-width: 350px;
-    max-width: 100%;
+    min-width: 380px;
+    max-width: 420px;
     border: 1.5px solid #e3e9ff;
-    gap: 32px;
+    gap: 20px;            /* Adjusted gap */
+    margin: 15px;
 }
 
 .verify-teacher-info {
-    flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;  /* Center children horizontally */
+    text-align: center;   /* Center text content */
 }
 
 .verify-teacher-email {
-    font-size: 1.13rem;
+    font-size: 1.2rem;       /* Increased from 1.13rem */
     font-weight: 600;
     color: #4f6cff;
-    margin-bottom: 8px;
+    margin-bottom: 12px;     /* Increased from 8px */
     word-break: break-all;
+    text-align: center;   /* Center email text */
 }
 
 .verify-teacher-label {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: #222;
-    font-weight: 500;
+    font-weight: 700;  /* Make the label text bold */
+    margin-bottom: 8px;
+    text-align: center;
+    width: 100%;
 }
 
 .verify-teacher-label span {
+    font-weight: 400;  /* Keep the value text normal */
     color: #555;
-    font-weight: 400;
 }
 
 .verify-teacher-actions {
+    width: 100%;         /* Make it full width */
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-    min-width: 120px;
+    justify-content: center;  /* Center the button */
+    margin-top: 10px;    /* Add some space above button */
 }
 
 .verify-btn {
+    min-width: 120px;    /* Minimum width for button */
     padding: 12px 28px;
     background: linear-gradient(90deg, #4f6cff 60%, #6ee7b7 100%);
     color: #fff;
@@ -161,6 +168,49 @@
     justify-content: center;
     gap: 32px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;       /* Increased from 1200px for more cards per row */
     padding: 0 24px;
+    margin: 0 auto;          /* Center the grid */
+}
+.verify-teachers-title{
+    color: #4f6cff;
+}
+
+/* Add these styles for custom alert */
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-left: 4px solid #4CAF50;
+    z-index: 1000;
+    animation: slideDown 0.3s ease-out;
+}
+
+.custom-alert .check-icon {
+    color: #4CAF50;
+    font-size: 20px;
+}
+
+.custom-alert .alert-message {
+    color: #222;
+    font-weight: 500;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
 }

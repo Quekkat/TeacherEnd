@@ -57,3 +57,13 @@
     background: linear-gradient(90deg, #3b53b6 60%, #34d399 100%);
     box-shadow: 0 4px 16px rgba(79,108,255,0.14);
 }
+
+.student-info-title {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #4f6cff;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e3e9ff;
+}

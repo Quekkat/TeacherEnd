@@ -4,8 +4,22 @@ import { useState, useEffect } from 'react';
 
 const VerifyTeachersCard = ({teacher})=>{
     const {verifySelectedTeacher} = useStore();
-    const handleVerify = async()=>{
-        console.log(teacher._id);
+    const handleVerify = async() => {
+        // Show custom alert
+        const alert = document.createElement('div');
+        alert.className = 'custom-alert';
+        alert.innerHTML = `
+            <span class="check-icon">✓</span>
+            <span class="alert-message">Added to Cart</span>
+        `;
+        document.body.appendChild(alert);
+
+        // Remove alert after 3 seconds
+        setTimeout(() => {
+            alert.remove();
+        }, 3000);
+
+        // Your existing verify logic
         const data = {
             ID: teacher._id,
         }

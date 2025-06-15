@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 70vh;
     background: none;
-    margin-left: 350px;
+    margin-left: 280px;  /* Reduced from 350px to 300px to move table left */
 }
 
 
