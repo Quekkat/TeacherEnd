@@ -13,7 +13,7 @@ router.post("/addNewItem", protectRoutes, createInventoryItem)
 router.get("/getunverifiedteachers", protectRoutes, unverifiedTeachersList);
 router.post("/removeItem", protectRoutes, removeInventoryItem);
 router.post("/verifyPayment", protectRoutes, verifyPayment);
-router.post("/unverifiedOrderList", protectRoutes, seeOrderList);
+router.get("/unverifiedOrderList", protectRoutes, seeOrderList);
 router.get("/transactionhistory", protectRoutes, transactionHistory);
 router.post("/searchtransactionhistory", protectRoutes, searchTransactionHistory);
 router.post("/verifystudent", protectRoutes, verifyStudent);

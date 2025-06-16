@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import './VerifyStudentPaymentWidget.css';
 import { useStore } from '../globalVariables';
+import VerifyPaymentCard from './VerifyPaymentCard';
 
-const VerifyStudentPayment = () => {
+const VerifyStudentPaymentWidget = () => {
     const {unverifiedPayments,getUnverifiedPayment} = useStore();
     useEffect(() => {
     getUnverifiedPayment();
     console.log(unverifiedPayments);
+    console.log("unverified payment list")
     }, []);
     const [search, setSearch] = useState("");
+
     const handleSearch = () => {
 
     };
-    const handleVerify =async(ID)=>{
-        console.log(ID);
-    }
+
 
     // Also search when pressing Enter in the input field
     const handleKeyPress = (e) => {
@@ -37,20 +38,10 @@ const VerifyStudentPayment = () => {
                 <button className="verify-search-btn" onClick={handleSearch}>Search</button>
             </div>
 
-                {
-                    unverifiedPayments.length>0? (
+                {unverifiedPayments.length>0? (
                         <div className="verify-student-payment-cards-center">
                         {unverifiedPayments.map((payment) => (
-                            <div className="verify-student-card" key={payment._id}>
-                                <div className="verify-student-info">
-                                    <div className="verify-student-label"><span className="label-bold">Item ordered:</span> {payment.itemName}</div>
-                                    <div className="verify-student-label"><span className="label-bold">Student Name:</span> {student.studentName}</div>
-                                    <div className="verify-student-label"><span className="label-bold">Student URN:</span> {student.studentUID}</div>
-                                </div>
-                                <div className="verify-student-actions">
-                                    <button className="verify-btn" onClick={handleVerify}>Verify</button>
-                                </div>
-                            </div>
+                            <VerifyPaymentCard key={payment._id} payment={payment}/>
                         ))}
             </div>
                     ):(
@@ -61,4 +52,4 @@ const VerifyStudentPayment = () => {
     );
 };
 
-export default VerifyStudentPayment;
+export default VerifyStudentPaymentWidget;

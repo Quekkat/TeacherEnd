@@ -172,7 +172,7 @@ export const seeProductList = async (req,res) =>{
 }
 export const seeOrderList = async (req, res)=>{
     try{
-        const unverifiedOrderList = OrderList.find({paymentVerified:false}).sort({createdAt:-1});
+        const unverifiedOrderList = await OrderList.find({paymentVerified:false}).sort({createdAt:-1});
         if(!unverifiedOrderList || unverifiedOrderList.length <=0 ) return res.status(404).json({message:"No unverified order"});
         return res.status(200).json(unverifiedOrderList);
     }catch(error){
