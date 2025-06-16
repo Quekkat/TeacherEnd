@@ -175,6 +175,8 @@ export const useStore = create((set,get)=>({
         try {
             //verifyPayment
             const res =await axiosInstance.post("/auth/verifyPayment",data);
+            console.log(res.data);
+            get().getUnverifiedPayment();
         } catch (error) {
             console.log(error.response.data.message); 
         }    

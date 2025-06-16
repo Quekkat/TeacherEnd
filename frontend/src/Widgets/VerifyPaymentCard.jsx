@@ -1,10 +1,9 @@
 import { useStore } from '../globalVariables';
 
 const VerifyPaymentCard = ({payment})=>{
-    
+    const {verifyPayment} = useStore();
     const handleVerify =()=>{
-        console.log("hello");
-        console.log(payment._id);
+        verifyPayment({paymentID: payment._id});
         };
     return(
         <div className="verify-student-card" key={payment._id}>

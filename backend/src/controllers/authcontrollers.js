@@ -228,10 +228,23 @@ export const removeInventoryItem = async (req,res)=>{
 export const verifyPayment = async (req,res)=>{
     try{
         const {paymentID} = req.body;
+        const teacher = req.teacher;
         if(!paymentID) return res.status(400).json({message:"No id provided"});
         const verifiedOrder = await OrderList.findByIdAndUpdate(paymentID,{$set:{paymentVerified: true}},{new:true});
         if(!verifiedOrder) return res.status(404).json({message:"Order doesnt exist"});
-        return res.status(200).json({message: "Order id: " + verifiedOrder._id + "verified"});
+
+        const historyMessage = "Payment of student: \"" + verifiedOrder.studentName + "\" on item:\""+ verifiedOrder.itemName+ "\" of item id: \"" + verifiedOrder.itemID + "\" was verified by admin account: \"" + teacher.gmail;
+        const newHistory = new History({
+            message: historyMessage,
+        });
+        if(newHistory){
+            await newHistory.save();
+            return res.status(200).json({message: "Order id: " + verifiedOrder._id + "verified"});
+        }else{
+            return res.status(400).json({message:"Invalid user data"});
+
+        }
+
     }catch(error){
         console.log("error in verifyPayment controller");
         res.status(500).json({message:"Internal server Error"});
