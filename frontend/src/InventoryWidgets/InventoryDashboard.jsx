@@ -1,8 +1,14 @@
 import { useState } from "react";
+import InventoryDashboardCard from "./InventoryDashboardCard";
 const InventoryDashboard =()=>{
     return(
-        <div>
+        <div className="inventory-dashboard-parent">
             Inventory main here
+            <InventoryDashboardCard DISPLAYTEXT={"KINDERGARTEN"} LEVELDESTINATION={"kindergarten"}/>
+            <InventoryDashboardCard DISPLAYTEXT={"ELEMENTARY"} LEVELDESTINATION={"elementary"}/>
+            <InventoryDashboardCard DISPLAYTEXT={"HIGHSCHOOL"} LEVELDESTINATION={"highschool"}/>
+            <InventoryDashboardCard DISPLAYTEXT={"COLLEGE"} LEVELDESTINATION={"college"}/>
+
         </div>
     )
 }

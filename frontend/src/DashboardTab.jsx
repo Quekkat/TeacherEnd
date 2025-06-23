@@ -40,6 +40,14 @@ const DashboardTab = () => {
                 <span className="nav-label">Inventory</span>
               </button>
             </li>
+
+            <li className="nav-item">
+              <button className="nav-link" onClick={()=> handleNavClick("inventory-dashboard")}>
+                <span className="material-symbols-rounded">inventory</span>
+                <span className="nav-label">Inventory Dashboard</span>
+              </button>
+            </li>
+
             <li className="nav-item">
               <button className="nav-link" onClick={() => handleNavClick("add-new")}>
                 <span className="material-symbols-rounded">add_circle</span>

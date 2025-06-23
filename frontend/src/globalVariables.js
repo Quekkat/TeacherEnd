@@ -2,12 +2,13 @@ import {create} from "zustand";
 import { axiosInstance } from "./axios";
 export const useStore = create((set,get)=>({
     authUser: null,
-    widgetTab: "inventory",
+    widgetTab: "inventory-dashboard",
     inventoryList:[],
     unverifiedTeachersList: [],
     unverifiedStudentList:[],
     history:[],
     unverifiedPayments:[],
+    specifiedLevel:"kindergarten",
     
     login: async (data) =>{
         try{
@@ -33,6 +34,9 @@ export const useStore = create((set,get)=>({
     },
     setWidgetTab: (tab)=>{
         set({widgetTab: tab});
+    },
+    setSpecifiedLevel:(level)=>{
+        set({specifiedLevel: level});
     },
 
     getItemList: async()=>{
