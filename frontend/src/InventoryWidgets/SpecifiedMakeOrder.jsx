@@ -2,7 +2,7 @@ import { useState } from "react";
 const SpecifiedMakeOrder =()=>{
     return(
         <div>
-            <p>Displays list of inventories </p>    
+            <p>makes order of specified item </p>    
         </div>
     )
 }
