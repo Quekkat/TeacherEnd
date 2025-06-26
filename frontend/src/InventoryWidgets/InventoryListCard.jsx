@@ -8,7 +8,10 @@ const InventoryListCard =({INVENTORY})=>{
         setWidgetTab("inventory-item");
     }
     return(
-            <button onClick={openInventory}>
+            <button className="inventory-list-card-base" onClick={openInventory}>
+                <div className="inventory-list-card-img-container">
+                    <img className="inventory-item-image" src="testImage.jpg" alt="item image here"/>
+                </div>
                 <p>Displays list of inventories </p>
                 <p>Item name: {INVENTORY.Name}</p>
                 <p>Year level: {INVENTORY.YearLevel}</p>  
