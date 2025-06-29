@@ -1,9 +1,13 @@
 import express from "express";
-import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory, addStock, addNewOrder} from "../controllers/authcontrollers.js";
+import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory, addStock, addNewOrder, createInventory} from "../controllers/authcontrollers.js";
 import { protectRoutes } from "../lib/protectedroute.js";
+import multer from "multer";
+const upload = multer({dest:"uploads/"});
 
 const router = express.Router();
 
+
+//todo: remove unused routes later
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", protectRoutes, logout);
@@ -21,5 +25,7 @@ router.get("/unverifiedstudentlist", protectRoutes, unverifiedStudentList);
 router.post("/addnewpayment", protectRoutes, addNewVerifiedPaymentToHistory);
 router.post("/restock", protectRoutes, addStock);
 router.post("/addNewOrder", protectRoutes, addNewOrder);
+
+router.post("/createInventory", protectRoutes, upload.single('itemImage'), createInventory);
 
 export default router;

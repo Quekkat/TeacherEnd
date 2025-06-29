@@ -8,6 +8,7 @@ import { generateToken } from "../lib/utility.js";
 import cloudinary from "../lib/cloudinary.js";
 import History from "../models/historymodel.js";
 
+//todo: remove unused controllers
 export const signup = async (req,res)=>{
     const {GMAIL, PASSWORD, FNAME, LNAME, USERNAME}=req.body;
     try{
@@ -325,6 +326,36 @@ export const addNewOrder= async(req,res)=>{
 
         }
     } catch(error){
+        console.log("error in addNewOrder controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
 
+export const createInventory = async(req,res)=>{
+    try{
+        const data = JSON.parse(req.body.data);
+        if(!req.file || !data) return res.status(400).json({message:" Invalid request"});
+        if(!data.ITEMNAME || !data.SIZE || !data.SECTION || !data.YEARLEVEL || !data.AMMOUNT) return res.status(400).json({message:"Invalid request"});
+        const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+
+        const newInventory = new Inventory({
+            name: data.ITEMNAME,
+            section: data.SECTION,
+            size: data.SIZE,
+            year: data.YEARLEVEL,
+            ammount: data.AMMOUNT,
+            ordered: 0,
+            preorder: 0,
+            imageUrl: imageUrl,
+        });
+        if(newInventory){
+            await newInventory.save();
+            return res.status(201).json(newInventory);
+        }else{
+            return res.status(400).json({message:"Inventory not saved"});
+        }
+    }catch(error){
+        console.log("error in createInventory controller");
+        res.status(500).json({message:"Internal server Error"});
     }
 }

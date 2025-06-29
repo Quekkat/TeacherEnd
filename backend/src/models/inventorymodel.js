@@ -1,45 +1,37 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    itemName:{
+    name:{
         type: String,
         required: true,
     },
-    itemImgLink:{
+    section:{
         type: String,
         required: true,
     },
-    forSaleAmmount:{
-        type: Number,
-        default:1,
-    },
-    orderedAmmount:{
-        type: Number,
-        default:0,
-    },
-    gcashQrImageLink:{
-        type: String,
-        required:true,
-    },
-    totalAmmount:{
-        type: Number,
-        default: 1,
-    },
-    createdByWho:{
+    size:{
         type: String,
         required: true,
     },
-    soldAmmount:{
-        type: Number,
-        default:0,
+    year:{
+        type: String,
+        required: true,
     },
-    isForSale:{
-        type: Boolean,
-        default: true,
-    },
-    price:{
+    ammount:{
         type: Number,
-        required:true,
+        required: true,
+    },
+    ordered:{
+        type: Number,
+        required: true,
+    },
+    preorder:{
+        type: Number,
+        required: true,
+    },
+    imageUrl:{
+        type: String,
+        required: true,
     }
 }, {timestamps:true});
 

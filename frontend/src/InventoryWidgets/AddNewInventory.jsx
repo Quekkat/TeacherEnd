@@ -1,5 +1,6 @@
 import { useStore } from "../globalVariables";
 import { useState, useEffect, useRef} from "react";
+import { axiosInstance } from "../axios";
 
 const AddNewInventory =()=>{
     const {setWidgetTab, setSpecifiedLevel, specifiedLevel} =useStore();
@@ -46,14 +47,29 @@ const AddNewInventory =()=>{
         fileInputRef.current.click(); // triggers hidden input
     };
 
-    const handleCreateInventory =()=>{
-        const data = {
-            ITEMNAME:itemName,
-            SIZE: selectedSize,
-            SECTION: section,
-            YEARLEVEL: selectedYear,
-            AMMOUNT: initialStockAmmount,
-            IMGFILE: imageFile,
+    const handleCreateInventory = async()=>{
+        try{
+            const data = {
+                ITEMNAME:itemName,
+                SIZE: selectedSize,
+                SECTION: section,
+                YEARLEVEL: selectedYear,
+                AMMOUNT: initialStockAmmount,
+            }
+            const formData = new FormData();
+            formData.append("data", JSON.stringify(data));
+            formData.append("itemImage", imageFile);
+            const res = await axiosInstance.post("/auth/createInventory", formData,{
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(res.data);
+            //setWidgetTab("inventory-list");
+
+        }catch(error){
+            console.log(error.response.data.message);
+
         }
     }
 
@@ -67,7 +83,7 @@ const AddNewInventory =()=>{
         </div>
             <div className="add-new-inventory-left-div">
                 <button onClick={handleBackButton}>back</button>
-                <input type="file" accept="image/*" ref={fileInputRef} style={{display: "none"}} onChange={handleImageChange}/>
+                <input type="file" accept="image/*" ref={fileInputRef} style={{display: "none"}} onChange={handleImageChange} name="itemImage"/>
                 <div onClick={handleClick} style={{ width: "200px", height: "200px", border: "2px dashed gray", borderRadius: "10px", cursor: "pointer", overflow: "hidden", backgroundSize: "cover", backgroundPosition: "center", backgroundImage: `url(${imagePreview || "/testImage.jpg"})`}} />
                 <button onClick={handleCreateInventory}>Add new item to inventory</button>
             </div>
