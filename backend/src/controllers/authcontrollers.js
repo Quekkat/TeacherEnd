@@ -331,6 +331,7 @@ export const addNewOrder= async(req,res)=>{
     }
 }
 
+//-----------------------------------------------new------------------------------------------------------------
 export const createInventory = async(req,res)=>{
     try{
         const data = JSON.parse(req.body.data);
@@ -356,6 +357,64 @@ export const createInventory = async(req,res)=>{
         }
     }catch(error){
         console.log("error in createInventory controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+
+export const getInventoryListByYear = async (req,res)=>{
+    try{
+        const {level} = req.body;
+        console.log(level);
+        if(level == "" ||!level) return res.status(404).json({message:"no specified level"});
+        const inventoryList = await Inventory.find({ year: { $in: ["all", level] }});
+        if(inventoryList.length<=0) return res.status(404).json({message:"the list is empty"});
+        return res.status(200).json(inventoryList);
+        
+    }catch(error){
+        console.log("error in getInventoryListByYear controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const restock = async (req,res)=>{
+    try{
+        const {id, ammount} = req.body;
+        const targetInventoryItem = await Inventory.findById(id);
+        if(!targetInventoryItem) return res.status(404).json({message:"Item no longer exist"});
+        const preordertoorder = Math.min(targetInventoryItem.preorder, ammount);
+        targetInventoryItem.ammount += ammount;
+        targetInventoryItem.preorder -= preordertoorder;
+        targetInventoryItem.ordered += preordertoorder;
+        await targetInventoryItem.save();
+        return res.status(200).json(targetInventoryItem);
+    }catch(error){
+        console.log("error in restock controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const orderItem = async (req,res)=>{
+    try{
+        const {itemID, Studentname} = req.body;
+        if (!Array.isArray(Studentname) || Studentname.length === 0) return res.status(400).json({ error: 'Users array is required and must not be empty' });
+        const multipleReceipts = Studentname.map(name=>({
+            itemID,
+            studentName: name,
+        }));
+        const item = await Inventory.findById(itemID);
+        if(!item) return res.status(404).json({message: "Item doesnt exist"});
+        const createdReceipts = await OrderList.insertMany(multipleReceipts);
+
+        const amount = Studentname.length;
+        const available = item.ammount - item.ordered;
+        const orderable = Math.min(amount, available);
+        const preorder = amount - orderable;
+        item.ordered += orderable;
+        item.preorder += preorder;
+        await item.save();
+        return res.status(201).json(createdReceipts);
+
+
+    }catch(error){
+        console.log("error in orderItem controller");
         res.status(500).json({message:"Internal server Error"});
     }
 }

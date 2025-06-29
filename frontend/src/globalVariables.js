@@ -53,4 +53,39 @@ export const useStore = create((set,get)=>({
 
         }
     },
+    getSpecifiedInventoryByYearLevel: async ()=>{
+        try{
+            const level = get().specifiedLevel;
+            const data = {level: level}
+            const res = await axiosInstance.post("/auth/getInventoryListByYear", data);
+            console.log("the server response")
+            console.log(res.data);
+            set({inventoryList: res.data});
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    restockItem: async (itemid, ammount)=>{
+        try{
+            const data = {
+                id: itemid,
+                ammount: ammount
+            };
+            const res = await axiosInstance.post("/auth/restock", data);
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    orderItem: async (data)=>{
+        try{
+            const res = await axiosInstance.post("/auth/orderItem", data);
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+
+        }
+    },
+    
 }))

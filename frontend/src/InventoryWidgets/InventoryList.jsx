@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useStore } from "../globalVariables";
 import AddNewCard from "./AddNewCard";
 import InventoryListCard from "./InventoryListCard";
@@ -7,7 +7,7 @@ const InventoryList =()=>{
     const {specifiedLevel, inventoryList} =useStore();
     const handleSearch =(e)=>{
         e.preventDefault();
-
+        console.log("handle search inventory here");
     }
     return(
         <div>

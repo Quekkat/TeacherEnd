@@ -1,18 +1,14 @@
 import { useState } from "react";
-import { axiosInstance } from "../axios";
-import { useStore } from "../globalVariables";
-const SpecifiedMakeOrder =()=>{
-    const {selectedInventoryItem} = useStore();
+const SpecifiedMakeOrderReference =()=>{
     const [userData, setUserData] = useState({
-      itemID: selectedInventoryItem._id,
-      Studentname: [''] // initial one input
+        hobbies: [''] // initial one input
     });
 
     // Add a new empty input field
     const addHobby = () => {
     setUserData(prev => ({
         ...prev,
-        Studentname: [...prev.Studentname, '']
+        hobbies: [...prev.hobbies, '']
         }));
     };
 
@@ -20,9 +16,9 @@ const SpecifiedMakeOrder =()=>{
     const removeHobby = () => {
         setUserData(prev => ({
         ...prev,
-        Studentname: prev.Studentname.slice(0, -1)
+        hobbies: prev.hobbies.slice(0, -1)
     }));
-};
+  };
 
   // Handle typing in any input
     const handleHobbyChange = (index, value) => {
@@ -31,29 +27,29 @@ const SpecifiedMakeOrder =()=>{
 
         setUserData(prev => ({
             ...prev,
-            Studentname: updatedHobbies
+            hobbies: updatedHobbies
         }));
     };
 
   return (
-    <div className="specified-make-order-base">
+    <div>
       <h3>Enter Hobbies:</h3>
-      {userData.Studentname.map((name, index) => (
+      {userData.hobbies.map((hobby, index) => (
         <input
           key={index}
-          value={name}
+          value={hobby}
           onChange={(e) => handleHobbyChange(index, e.target.value)}
-          placeholder={`Student ${index + 1}`}
+          placeholder={`Hobby ${index + 1}`}
           style={{ display: 'block', marginBottom: '8px' }}
         />
       ))}
 
-      <button onClick={addHobby}>Add student</button>
-      <button onClick={removeHobby} disabled={userData.Studentname.length <= 1}>Remove student</button>
+      <button onClick={addHobby}>Add Hobby</button>
+      <button onClick={removeHobby} disabled={userData.hobbies.length <= 1}>Remove Hobby</button>
 
       <pre>{JSON.stringify(userData, null, 2)}</pre>
     </div>
   );
 
 }
-export default SpecifiedMakeOrder;
+export default SpecifiedMakeOrderReference;

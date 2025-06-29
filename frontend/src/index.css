@@ -16,6 +16,10 @@
 }
 .inventory-item-main-flexbox-container{
     position: absolute;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
 }
 .confirm-restock-popup-modal-base{
     position: absolute;
@@ -62,4 +66,7 @@
     justify-content: center;
     background-color: rgb(108, 225, 234);
     padding: 5%;
+}
+.inventory-item-vertical-box{
+    display:flex;
 }

@@ -1,31 +1,40 @@
 import { useState } from "react";
 import { useStore } from "../globalVariables";
 const InventoryItem =()=>{
-    const {selectedInventoryItem, setWidgetTab} = useStore();
+    const {selectedInventoryItem, setWidgetTab, restockItem, getSpecifiedInventoryByYearLevel} = useStore();
     const [restock, setRestock]= useState(0);
     const [confirmRestock, setConfirmRestock] = useState(false);
     const backEvent =()=>{
         setWidgetTab("inventory-list");
     }
-    const handleRestockEvent =()=>{
+    const handleRestockEvent =async()=>{
         console.log("handle restock here");
+        await restockItem(selectedInventoryItem._id, restock);
+        await getSpecifiedInventoryByYearLevel();
+
+        backEvent();
+    }
+    const handleMakeOrder =()=>{
+        setWidgetTab("specified-make-order");
     }
     return(
         <div className="inventory-item-main">
+        <div className="inventory-item-vertical-box">
+            <button onClick={backEvent}> Back</button>
+        </div>
         <div className="inventory-item-main-flexbox-container">
-            <div className="inventory-item-right-div">
-                <button onClick={backEvent}> Back</button>
-                <p>Displays specified item: </p>
-                <p>Item name: {selectedInventoryItem.Name}</p>  
+            <div className="inventory-item-left-div">
                 <div className="inventory-item-image-container">
-                    <img className="inventory-item-image" src="testImage.jpg" alt="item image here"/>
+                    <img className="inventory-item-image" src={selectedInventoryItem.imageUrl} alt="emptyImagetemplate.jpg"/>
                 </div>
             </div>
-            <div className="inventory-item-left-div">
-                <p>Ammount available: {selectedInventoryItem.totalAmount - selectedInventoryItem.amountSold}</p>
-                <p>Total ammount: {selectedInventoryItem.totalAmount}</p>
+            <div className="inventory-item-right-div">
+                <p>Item name: {selectedInventoryItem.name}</p>  
+                <p>Ammount available: {selectedInventoryItem.ammount - selectedInventoryItem.ordered}</p>
+                <p>Total ammount: {selectedInventoryItem.ammount}</p>
                 <p>Preorder:{selectedInventoryItem.preorder}</p>
-                <p>Size: {selectedInventoryItem.Size}</p>
+                <p>Size: {selectedInventoryItem.size}</p>
+                <button onClick={handleMakeOrder}> Order</button>
                 <div className="restock-root-div">
                     <button onClick={() => setRestock(prev => prev + 1)}>+</button>
                     <input type="number" value={restock} onChange={e => setRestock(Number(e.target.value))}/>

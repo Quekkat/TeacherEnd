@@ -65,7 +65,7 @@ const AddNewInventory =()=>{
                 },
             });
             console.log(res.data);
-            //setWidgetTab("inventory-list");
+            setWidgetTab("inventory-list");
 
         }catch(error){
             console.log(error.response.data.message);
@@ -84,7 +84,7 @@ const AddNewInventory =()=>{
             <div className="add-new-inventory-left-div">
                 <button onClick={handleBackButton}>back</button>
                 <input type="file" accept="image/*" ref={fileInputRef} style={{display: "none"}} onChange={handleImageChange} name="itemImage"/>
-                <div onClick={handleClick} style={{ width: "200px", height: "200px", border: "2px dashed gray", borderRadius: "10px", cursor: "pointer", overflow: "hidden", backgroundSize: "cover", backgroundPosition: "center", backgroundImage: `url(${imagePreview || "/testImage.jpg"})`}} />
+                <div onClick={handleClick} style={{ width: "200px", height: "200px", border: "2px dashed gray", borderRadius: "10px", cursor: "pointer", overflow: "hidden", backgroundSize: "cover", backgroundPosition: "center", backgroundImage: `url(${imagePreview || "/emptyImagetemplate.jpg"})`}} />
                 <button onClick={handleCreateInventory}>Add new item to inventory</button>
             </div>
             <div className="add-new-inventory-right-div">
