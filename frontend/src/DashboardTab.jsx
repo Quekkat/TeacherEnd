@@ -49,6 +49,13 @@ const DashboardTab = () => {
               </button>
             </li>
             <li className="nav-item">
+              <button className="nav-link" onClick={()=> handleNavClick("order-list")}>
+                <span className="material-symbols-rounded">inventory</span>
+                <span className="nav-label"> Order list</span>
+              </button>
+            </li>
+
+            <li className="nav-item">
               <button className="nav-link" onClick={logout}>
                 <span className="material-symbols-rounded">logout</span>
                 <span className="nav-label">Log Out</span>

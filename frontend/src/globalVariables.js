@@ -10,6 +10,23 @@ export const useStore = create((set,get)=>({
     specifiedLevel:"kindergarten",
     inventoryList: [],
     selectedInventoryItem:null,
+    selectedOrder:null,
+    orderList:[],
+    getOrderList: async()=>{
+        try{
+            const res = await axiosInstance.post("/auth/getorderitem");
+            console.log(res.data);
+            set({orderList: res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    setOrderList: (order)=>{
+        set({orderList: order});
+    },
+    setSelectedOrder: (order)=>{
+        set({selectedOrder: order});
+    },
     setSelectedInventoryItem:(item)=>{
         set({selectedInventoryItem: item});
     },

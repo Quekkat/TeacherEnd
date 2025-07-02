@@ -395,12 +395,17 @@ export const orderItem = async (req,res)=>{
     try{
         const {itemID, Studentname} = req.body;
         if (!Array.isArray(Studentname) || Studentname.length === 0) return res.status(400).json({ error: 'Users array is required and must not be empty' });
+
+        //finds selected item
+        const item = await Inventory.findById(itemID);
+        if(!item) return res.status(404).json({message: "Item doesnt exist"});
+
+        //creates receipt
         const multipleReceipts = Studentname.map(name=>({
             itemID,
             studentName: name,
+            itemName: item.name,
         }));
-        const item = await Inventory.findById(itemID);
-        if(!item) return res.status(404).json({message: "Item doesnt exist"});
         const createdReceipts = await OrderList.insertMany(multipleReceipts);
 
         const amount = Studentname.length;
@@ -415,6 +420,15 @@ export const orderItem = async (req,res)=>{
 
     }catch(error){
         console.log("error in orderItem controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const getOrderItem = async (req,res)=>{
+    try{
+        const data = await OrderList.find({});
+        res.status(200).json(data);
+    }catch(error){
+        console.log("error in getOrderItem controller");
         res.status(500).json({message:"Internal server Error"});
     }
 }

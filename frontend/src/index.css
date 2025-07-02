@@ -15,7 +15,6 @@
     position: relative;
 }
 .inventory-item-main-flexbox-container{
-    position: absolute;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -69,4 +68,29 @@
 }
 .inventory-item-vertical-box{
     display:flex;
+    position: absolute;
+    flex-direction: column;
+}
+.specified-make-order-right-div{
+    background-color: aqua;
+}
+.specified-make-order-flexbox{
+    background-color: azure;
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+}
+.specified-make-order-vertical-box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    gap: 20px;
+    background-color: black;
+
+}
+.specified-make-order-base{
+    width: 100%;
 }

@@ -3,7 +3,6 @@ import InventoryDashboardCard from "./InventoryDashboardCard";
 const InventoryDashboard =()=>{
     return(
         <div className="inventory-dashboard-parent">
-            Inventory main here
             <InventoryDashboardCard DISPLAYTEXT={"KINDERGARTEN"} LEVELDESTINATION={"kindergarten"}/>
             <InventoryDashboardCard DISPLAYTEXT={"ELEMENTARY"} LEVELDESTINATION={"elementary"}/>
             <InventoryDashboardCard DISPLAYTEXT={"HIGHSCHOOL"} LEVELDESTINATION={"highschool"}/>
