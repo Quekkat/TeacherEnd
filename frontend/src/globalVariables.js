@@ -3,6 +3,7 @@ import { axiosInstance } from "./axios";
 export const useStore = create((set,get)=>({
     authUser: null,
     widgetTab: "inventory-dashboard",
+    theme: "light",
     unverifiedTeachersList: [],
     unverifiedStudentList:[],
     history:[],
@@ -12,6 +13,7 @@ export const useStore = create((set,get)=>({
     selectedInventoryItem:null,
     selectedOrder:null,
     orderList:[],
+    toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
     getOrderList: async()=>{
         try{
             const res = await axiosInstance.post("/auth/getorderitem");

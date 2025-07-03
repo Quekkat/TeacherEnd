@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useStore } from "../globalVariables";
 import { Link } from "react-router-dom";
-import './Login.css';
 import backgroundImage from './assets/VisionAcademyImg.jpg'; // ✅ Import image
-//bla bla
+
 const Login = () => {
   const { login } = useStore();
   const [formData, setFormData] = useState({
@@ -18,48 +17,45 @@ const Login = () => {
 
   return (
     <div
-      className="login"
+      className="w-screen h-screen min-h-screen flex justify-center items-center bg-transparent"
       style={{
         backgroundImage: `url(${backgroundImage})`, // ✅ Set image as background
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
       }}
     >
-      <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+      <form onSubmit={handleSubmit} className="bg-black bg-opacity-70 p-5 rounded-xl shadow-lg shadow-white w-full max-w-md">
+        <h1 className="text-4xl text-center text-white">Login</h1>
 
-        <div className="input-box">
+        <div className="relative w-full h-12 my-7">
           <input
             type="email"
             placeholder="Email"
             value={formData.GMAIL}
             onChange={(e) => setFormData({ ...formData, GMAIL: e.target.value })}
             required
+            className="w-full h-full bg-transparent border-2 border-white border-opacity-20 rounded-full text-base text-white p-5 pr-11"
           />
-          <i className="bx bxs-user"></i>
+          <i className="bx bxs-user absolute right-5 top-1/2 -translate-y-1/2 text-xl text-white"></i>
         </div>
 
-        <div className="input-box">
+        <div className="relative w-full h-12 my-7">
           <input
             type="password"
             placeholder="Password"
             value={formData.PASSWORD}
             onChange={(e) => setFormData({ ...formData, PASSWORD: e.target.value })}
             required
+            className="w-full h-full bg-transparent border-2 border-white border-opacity-20 rounded-full text-base text-white p-5 pr-11"
           />
-          <i className="bx bxs-lock-alt"></i>
+          <i className="bx bxs-lock-alt absolute right-5 top-1/2 -translate-y-1/2 text-xl text-white"></i>
         </div>
 
-        <button type="submit" className="btn">Login</button>
+        <button type="submit" className="w-full h-11 border-none outline-none rounded-full bg-white text-black font-semibold cursor-pointer transition-all duration-300 hover:bg-gray-300">Login</button>
 
-        <div className="register-link">
-          <p>Don't have an account?</p>
-          <Link className="signUp" to="/signin">Sign Up Instead</Link>
+        <div className="text-sm text-center mt-5">
+          <p className="text-white">Don't have an account? <Link className="text-white no-underline font-semibold hover:underline" to="/signin">Sign Up Instead</Link></p>
         </div>
       </form>
     </div>

@@ -1,96 +1,14 @@
-.inventory-item-image-container{
-    width: 300px;
-    height: 400px;
-    background-color: rgb(0, 102, 191);
-}
-.inventory-item-image{
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-}
-.inventory-item-main{
-    background-color: aquamarine;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.inventory-item-main-flexbox-container{
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-}
-.confirm-restock-popup-modal-base{
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(87, 87, 87, 0.329);
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.confirm-restock-popup-modal-content{
-    background-color: rgb(0, 140, 255);
-    width: 30%;
-    height: 20%;
-}
-.inventory-list-card-base{
-    background-color: rgb(174, 174, 174);
-    width: 250px;
-    height: 300px;
-}
-.inventory-list-card-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-.add-new-inventory-list-card-base{
-    width: 250px;
-    height: 300px;
-    background-color: rgb(174, 174, 174);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-}
-.inventory-list-card-img-container{
-    width: 200px;
-    height: 200px;
-}
-.add-new-inventory-item-base{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    background-color: rgb(108, 225, 234);
-    padding: 5%;
-}
-.inventory-item-vertical-box{
-    display:flex;
-    position: absolute;
-    flex-direction: column;
-}
-.specified-make-order-right-div{
-    background-color: aqua;
-}
-.specified-make-order-flexbox{
-    background-color: azure;
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    justify-content: center;
-}
-.specified-make-order-vertical-box{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-start;
-    gap: 20px;
-    background-color: black;
+@layer base {
+  body {
+    @apply bg-gradient-to-b from-[#F1F3FF] to-[#CBD4FF] font-['Poppins',_serif] overflow-x-hidden transition-colors duration-300;
+  }
 
+  .dark body {
+    @apply bg-gradient-to-b from-gray-900 to-gray-800 text-gray-200;
+  }
 }
-.specified-make-order-base{
-    width: 100%;
-}
+

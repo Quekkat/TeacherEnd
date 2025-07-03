@@ -7,14 +7,13 @@ import AddNewInventory from "./InventoryWidgets/AddNewInventory";
 import InventoryItem from "./InventoryWidgets/InventoryItem";
 import SpecifiedMakeOrder from "./InventoryWidgets/SpecifiedMakeOrder";
 import OrderList from "./InventoryWidgets/OrderList";
-import "./MainPage.css";
 
 const MainPage = () => {
     const {widgetTab} = useStore();
     return(
-        <div className="main-page-container">
+        <div className="relative flex w-full overflow-x-hidden">
             <DashboardTab/>
-            <div className="main-content">
+            <div className="flex-1 min-h-screen flex justify-center w-full lg:w-[calc(100%-280px)] ml-0 lg:ml-72 p-5 pt-16 lg:pt-5 transition-all duration-300 ease-in-out">
                 {widgetTab ==="inventory-dashboard" && <InventoryDashboard/>}
                 {widgetTab ==="inventory-list"&& <InventoryList/>}
                 {widgetTab === "add-new-inventory" && <AddNewInventory/>}
