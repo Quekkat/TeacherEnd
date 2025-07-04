@@ -31,6 +31,7 @@ const OrderSlip = ({props,ref})=>{
                         <p>No:___________</p>
                         <p>Received by: {selectedOrder.studentName} </p>
                         <p>Payment for: {selectedOrder.itemName}</p>
+                        <p>Item price: {selectedOrder.itemPrice}</p>
                     </div>
                     <div className="order-slip-right-div">
                         <p>Date: {currentDate}</p>

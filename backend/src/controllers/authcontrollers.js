@@ -348,6 +348,7 @@ export const createInventory = async(req,res)=>{
             ordered: 0,
             preorder: 0,
             imageUrl: imageUrl,
+            price: data.price,
         });
         if(newInventory){
             await newInventory.save();
@@ -405,6 +406,7 @@ export const orderItem = async (req,res)=>{
             itemID,
             studentName: name,
             itemName: item.name,
+            itemPrice: item.price,
         }));
         const createdReceipts = await OrderList.insertMany(multipleReceipts);
 
@@ -430,5 +432,33 @@ export const getOrderItem = async (req,res)=>{
     }catch(error){
         console.log("error in getOrderItem controller");
         res.status(500).json({message:"Internal server Error"});
+    }
+}
+
+export const deleteItem = async (req,res)=>{
+    try{
+        const fs = require('fs');
+        const path = require('path');
+        const {itemID} = req.body;
+        const item = await Inventory.findByIdAndUpdate(itemID, {deleted: true}, {new: true});
+
+        //deletes the file image here
+        const fileUrl = item.imageUrl;
+        const url = new URL(fileUrl);
+        const filename = path.basename(url.pathname);
+        const filePath = path.join(__dirname,'uploads', filename);
+        fs.unlink(filePath,(err)=>{
+            if(err){
+                return res.status(500).json({message:"Internal server error: error in deleting file"});
+            }else{
+                console.log("File deleted");
+            }
+        })
+        if(!item) return res.status(404).json({message: "Item not found"});
+        return res.status(200).json(item);
+
+    }catch(error){
+        console.log("error in deleteItem controller");
+        res.status(500).json({message:"Internal server Error"});    
     }
 }

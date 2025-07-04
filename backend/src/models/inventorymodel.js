@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema({
     imageUrl:{
         type: String,
         required: true,
+    },
+    deleted: {
+        type: Boolean,
+        default: false,
+    },
+    price:{
+        type: Number,
+        required: true,
     }
 }, {timestamps:true});
 

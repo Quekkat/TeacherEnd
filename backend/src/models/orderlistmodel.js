@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     itemName:{
         type: String,
         required:true
+    },
+    itemPrice:{
+        type: Number,
+        required: true,
     }
 
 },{timestamps:true});

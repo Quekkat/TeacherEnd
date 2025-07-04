@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory, addStock, addNewOrder, createInventory, getInventoryListByYear, restock, orderItem, getOrderItem} from "../controllers/authcontrollers.js";
+import { login, logout, signup, verifyTeacher, seeProductList , unverifiedTeachersList, createInventoryItem, removeInventoryItem, verifyPayment, seeOrderList, transactionHistory, searchTransactionHistory, verifyStudent, unverifiedStudentList, addNewVerifiedPaymentToHistory, addStock, addNewOrder, createInventory, getInventoryListByYear, restock, orderItem, getOrderItem, deleteItem} from "../controllers/authcontrollers.js";
 import { protectRoutes } from "../lib/protectedroute.js";
 import multer from "multer";
 const upload = multer({dest:"uploads/"});
@@ -31,5 +31,6 @@ router.post("/createInventory", protectRoutes, upload.single('itemImage'), creat
 router.post("/restock", protectRoutes, restock);
 router.post("/orderItem", protectRoutes, orderItem);
 router.post("/getorderitem", protectRoutes, getOrderItem);
+router.post("/deleteItem", protectRoutes, deleteItem);
 
 export default router;
