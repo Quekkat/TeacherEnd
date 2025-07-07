@@ -67,7 +67,7 @@ const InventoryItem = () => {
                                 </button>
                                 <button 
                                     onClick={()=> setConfirmDelete(true)} 
-                                    className="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+                                    className="w-full mt-4 py-3 px-6 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
                                 >
                                     Delete
                                 </button>
@@ -107,10 +107,10 @@ const InventoryItem = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 m-4 max-w-sm w-full text-center">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">confirm delete</h2>
-                        <p className="text-gray-600 dark:text-gray-300 mb-6">Are you sure you want to delete the inventory?</p>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6">Are you sure you want to delete this inventory?</p>
                         <div className="flex justify-center gap-4">
                             <button onClick={() => setConfirmDelete(false)} className="py-2 px-6 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors">No, Cancel</button>
-                            <button onClick={handleDeleteItem} className="py-2 px-6 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">Yes, Confirm</button>
+                            <button onClick={handleDeleteItem} className="py-2 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">Yes, Confirm</button>
                         </div>
                     </div>
                 </div>

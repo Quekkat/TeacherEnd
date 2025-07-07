@@ -105,7 +105,7 @@ const DashboardTab = () => {
                 className="w-full flex items-center gap-3 py-3 px-4 text-white dark:text-gray-300 rounded-lg hover:bg-gray-100 hover:text-[#151A2E] dark:hover:bg-gray-700 dark:hover:text-white transition-colors duration-300"
                 onClick={() => handleNavClick("teachers")}
               >
-                <span className="material-symbols-rounded">list_alt</span>
+                <span className="material-symbols-rounded">manage_accounts</span>
                 <span className="font-medium">Admin List</span>
               </button>
               </li>
