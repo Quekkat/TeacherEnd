@@ -7,6 +7,7 @@ import AddNewInventory from "./InventoryWidgets/AddNewInventory";
 import InventoryItem from "./InventoryWidgets/InventoryItem";
 import SpecifiedMakeOrder from "./InventoryWidgets/SpecifiedMakeOrder";
 import OrderList from "./InventoryWidgets/OrderList";
+import Teacher from "./InventoryWidgets/Teachers";
 
 const MainPage = () => {
     const {widgetTab} = useStore();
@@ -20,7 +21,7 @@ const MainPage = () => {
                 {widgetTab === "inventory-item" && <InventoryItem/> }
                 {widgetTab === "specified-make-order" && <SpecifiedMakeOrder/>}
                 {widgetTab === "order-list" && <OrderList/>}
-                
+                {widgetTab === "teachers" && <Teacher/>}
             </div>
         </div>
     );

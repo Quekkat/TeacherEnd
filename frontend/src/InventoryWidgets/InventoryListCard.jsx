@@ -36,6 +36,11 @@ const InventoryListCard = ({ INVENTORY }) => {
           Size:{" "}
           <span className="font-semibold">{INVENTORY.size}</span>
         </p>
+        <p className="text-base text-gray-600 dark:text-gray-400">
+          Price:{" "}
+          <span className="font-semibold">{INVENTORY.price}</span>
+        </p>
+        
       </div>
     </button>
   );

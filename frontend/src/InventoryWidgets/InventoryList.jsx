@@ -9,7 +9,7 @@ const InventoryList = () => {
   const [filteredInventory, setFilteredInventory] = useState([]);
 
   useEffect(() => {
-    const filtered = inventoryList.filter((item) =>
+    const filtered = inventoryList?.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredInventory(filtered);
@@ -64,7 +64,7 @@ const InventoryList = () => {
 
       {/* Inventory Cards Column */}
       <div className="flex flex-col items-center gap-6">
-        {filteredInventory.length > 0 ? (
+        {filteredInventory?.length > 0 ? (
           filteredInventory.map((inventory) => (
             <InventoryListCard key={inventory._id} INVENTORY={inventory} />
           ))

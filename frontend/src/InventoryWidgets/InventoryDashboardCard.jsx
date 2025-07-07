@@ -4,6 +4,7 @@ const InventoryDashboardCard = ({ LEVELDESTINATION, DISPLAYTEXT }) => {
   const { setWidgetTab, setSpecifiedLevel, getSpecifiedInventoryByYearLevel } = useStore();
 
   const handleClick = async () => {
+    console.log(LEVELDESTINATION);
     setSpecifiedLevel(LEVELDESTINATION);
     await getSpecifiedInventoryByYearLevel();
     setWidgetTab("inventory-list");

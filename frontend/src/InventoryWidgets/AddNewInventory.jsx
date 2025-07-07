@@ -3,13 +3,14 @@ import { useState, useEffect, useRef} from "react";
 import { axiosInstance } from "../axios";
 
 const AddNewInventory =()=>{
-    const {setWidgetTab, setSpecifiedLevel, specifiedLevel} =useStore();
+    const {setWidgetTab, setSpecifiedLevel, specifiedLevel, getSpecifiedInventoryByYearLevel} =useStore();
     var previousLevel;
     const [selectedSize, setSelectedSize] = useState("any");
     const [initialStockAmmount, setInitialStockAmmount]= useState(0);
     const [section, setSection] = useState("all");
     const [selectedYear, setSelectedYear] = useState("kindergarten");
     const [itemName, setItemName] = useState("");
+    const [price, setPrice] = useState(0);
 
 
     const handleSizeChange = (e)=>{
@@ -55,6 +56,7 @@ const AddNewInventory =()=>{
                 SECTION: section,
                 YEARLEVEL: selectedYear,
                 AMMOUNT: initialStockAmmount,
+                price: price,
             }
             const formData = new FormData();
             formData.append("data", JSON.stringify(data));
@@ -65,11 +67,12 @@ const AddNewInventory =()=>{
                 },
             });
             console.log(res.data);
+
+            await getSpecifiedInventoryByYearLevel();
             setWidgetTab("inventory-list");
 
         }catch(error){
             console.log(error.response.data.message);
-
         }
     }
 
@@ -119,6 +122,12 @@ const AddNewInventory =()=>{
                     <button onClick={() => setInitialStockAmmount(prev => prev + 1)}>+</button>
                     <input type="number" value={initialStockAmmount} onChange={e => setInitialStockAmmount(Number(e.target.value))}/>
                     <button onClick={() => setInitialStockAmmount(prev => prev - 1)}>-</button>
+                </div>
+                <p>Price:</p>
+                <div className="ammount-selector-div">
+                    <button onClick={() => setPrice(prev => prev + 1)}>+</button>
+                    <input type="number" value={price} onChange={e => setPrice(Number(e.target.value))}/>
+                    <button onClick={() => setPrice(prev => prev - 1)}>-</button>
                 </div>
             </div>
         </div>

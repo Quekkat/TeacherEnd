@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useStore } from "../globalVariables";
 
 const InventoryItem = () => {
-    const { selectedInventoryItem, setWidgetTab, restockItem, getSpecifiedInventoryByYearLevel } = useStore();
+    const { selectedInventoryItem, setWidgetTab, restockItem, getSpecifiedInventoryByYearLevel, removeItem } = useStore();
     const [restock, setRestock] = useState(0);
     const [confirmRestock, setConfirmRestock] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
     const backEvent = () => {
         setWidgetTab("inventory-list");
@@ -20,6 +21,11 @@ const InventoryItem = () => {
     const handleMakeOrder = () => {
         setWidgetTab("specified-make-order");
     };
+    const handleDeleteItem = async () =>{
+        await removeItem(selectedInventoryItem._id);
+        await getSpecifiedInventoryByYearLevel();
+        backEvent();
+    }
 
     return (
         <div className="w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 font-sans">
@@ -59,6 +65,12 @@ const InventoryItem = () => {
                                 >
                                     Order Now
                                 </button>
+                                <button 
+                                    onClick={()=> setConfirmDelete(true)} 
+                                    className="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+                                >
+                                    Delete
+                                </button>
                                 <div className="mt-6 text-center">
                                     <label className="text-sm font-medium text-gray-600 dark:text-gray-400">Restock Item</label>
                                     <div className="flex items-center justify-center gap-2 mt-2">
@@ -87,6 +99,18 @@ const InventoryItem = () => {
                         <div className="flex justify-center gap-4">
                             <button onClick={() => setConfirmRestock(false)} className="py-2 px-6 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors">No, Cancel</button>
                             <button onClick={handleRestockEvent} className="py-2 px-6 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">Yes, Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {confirmDelete && (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 m-4 max-w-sm w-full text-center">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">confirm delete</h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6">Are you sure you want to delete the inventory?</p>
+                        <div className="flex justify-center gap-4">
+                            <button onClick={() => setConfirmDelete(false)} className="py-2 px-6 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors">No, Cancel</button>
+                            <button onClick={handleDeleteItem} className="py-2 px-6 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">Yes, Confirm</button>
                         </div>
                     </div>
                 </div>

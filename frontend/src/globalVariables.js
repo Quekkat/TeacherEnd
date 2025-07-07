@@ -12,7 +12,9 @@ export const useStore = create((set,get)=>({
     inventoryList: [],
     selectedInventoryItem:null,
     selectedOrder:null,
+    selectedDeletedTeacher:"",
     orderList:[],
+    teachersList:[],
     toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
     getOrderList: async()=>{
         try{
@@ -32,6 +34,10 @@ export const useStore = create((set,get)=>({
     setSelectedInventoryItem:(item)=>{
         set({selectedInventoryItem: item});
     },
+    setSelectedDeletedTeacher:(teacher)=>{
+        set({selectedDeletedTeacher: teacher});
+        console.log(get().selectedDeletedTeacher);
+    },
     
     login: async (data) =>{
         try{
@@ -46,8 +52,9 @@ export const useStore = create((set,get)=>({
     },
     signUp: async (data) =>{
         try{
+            console.log("signing up");
             const res = await axiosInstance.post("/auth/signup", data);
-            set({authUser: res.data});
+            console.log(res.data);
             //add react toast here when success
         }catch (error){
             console.log(error.response.data.message);
@@ -83,6 +90,7 @@ export const useStore = create((set,get)=>({
             console.log(res.data);
         }catch(error){
             console.log(error.response.data.message);
+            set({inventoryList: null});
         }
     },
     restockItem: async (itemid, ammount)=>{
@@ -103,8 +111,35 @@ export const useStore = create((set,get)=>({
             console.log(res.data);
         }catch(error){
             console.log(error.response.data.message);
-
         }
     },
+    removeItem: async (id) =>{
+        try{
+            const data = {itemID: id}
+            const res = await axiosInstance.post("/auth/deleteItem", data);
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);   
+        }
+    },
+    getTeachersList: async()=>{
+        try{
+            const res = await axiosInstance.post("/auth/getTeachers");
+            console.log(res.data);
+            set({teachersList: res.data});
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    deleteTeacher: async(id)=>{
+        try{
+            console.log("deleting item id:" , id);
+            const data = {ID: id};
+            const res = await axiosInstance.post("/auth/deleteTeachers", data);
+            console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    }
     
 }))

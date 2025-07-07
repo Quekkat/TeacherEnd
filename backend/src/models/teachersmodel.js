@@ -10,20 +10,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    fName:{
-        type: String,
-        required: true,
-    },
-    lName:{
-        
-        type: String,
-        required: true,
-    },
-    username:{
-        type: String,
-        required: true,
-    },
-    isValidated:{
+    superadmin:{
         type: Boolean,
         default: false
     } 

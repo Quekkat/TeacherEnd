@@ -1,3 +1,5 @@
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Teacher from "../models/teachersmodel.js";
@@ -5,15 +7,19 @@ import Student from "../models/studentmodel.js";
 import OrderList from "../models/orderlistmodel.js";
 import Inventory from "../models/inventorymodel.js"
 import { generateToken } from "../lib/utility.js";
-import cloudinary from "../lib/cloudinary.js";
 import History from "../models/historymodel.js";
+import fs from 'fs/promises';
+import path from 'path';
+
+
 
 //todo: remove unused controllers
 export const signup = async (req,res)=>{
-    const {GMAIL, PASSWORD, FNAME, LNAME, USERNAME}=req.body;
+    const {GMAIL, PASSWORD}=req.body;
     try{
+        console.log("Incoming body", req.body);
         //insert code to validate if the variables are set correct here
-        if(!GMAIL||!PASSWORD||!FNAME||!LNAME||!USERNAME){
+        if(!GMAIL||!PASSWORD){
             return res.status(400).json({message:"all fields must be met"});
         }
         const teacher = await Teacher.findOne({gmail: GMAIL});
@@ -24,15 +30,11 @@ export const signup = async (req,res)=>{
         const newTeacher = new Teacher({
             gmail: GMAIL,
             password: hashedPassword,
-            fName: FNAME,
-            lName: LNAME,
-            username: USERNAME
         });
         //creates token for client then send the new student to Student table
         if (newTeacher){
-            generateToken(newTeacher._id,res);
             await newTeacher.save();
-            res.status(201).json({id: newTeacher._id, username: newTeacher.username});
+            res.status(201).json({id: newTeacher._id, gmail: newTeacher.gmail});
         }else{
             res.status(400).json({message:"Invalid user data"});
         }
@@ -44,18 +46,19 @@ export const signup = async (req,res)=>{
 
 export const login =async (req,res)=>{
     //Handles login, returns teacher data and jwt
-        const {GMAIL, PASSWORD} = req.body;
     try{
+        const {GMAIL, PASSWORD} = req.body;
+
+        //searches for the teacher
         const teacher = await Teacher.findOne({gmail: GMAIL});
-
         if (!teacher) return res.status(400).json({message:"Invalid credentials"});
-        if(! teacher.isValidated) return res.status(400).json({message: "teacher invalid"});
 
+        //checks if correct password
         const correctPassword = await bcrypt.compare(PASSWORD, teacher.password);
         if(!correctPassword) return res.status(400).json({message:"Invalid credentials"});
-        generateToken(teacher._id,res);
+        generateToken(teacher._id,teacher.superadmin, res);
         return res.status(200).json({
-            id: teacher._id, username: teacher.username
+            id: teacher._id, username: teacher.username, superadmin: teacher.superadmin
         });
     }catch(error){
         console.log("Error in login controller:", error.message);
@@ -111,56 +114,6 @@ export const unverifiedTeachersList = async (req,res)=>{
     }
 }
 
-export const createInventoryItem = async (req,res)=>{
-    try{
-        // retrieves data of item to be created
-        const {ITEMNAME, GCASHQR, ITEMIMAGE, PRICE, INITIALAMMOUNT} = req.body;
-        const teacherID = req.teacher._id;
-        //todo: validate the item to be created
-        //checks if item already existed in the inventory or not
-        const matchedInventoryName = await Inventory.find({itemName: ITEMNAME});
-        if(matchedInventoryName.length>0) return res.status(400).json({message:"Item already existed: " + matchedInventoryName});
-        console.log("item passed the filter");
-        //converts item image and gcash qr into cloudinary url
-        const gcashqrcloudinarylink = await cloudinary.uploader.upload(GCASHQR);
-        const imagecloudinarylink = await cloudinary.uploader.upload(ITEMIMAGE);
-        console.log("item uploaded to cloudinary");
-
-        //finds the teacher gmail
-        const teachergmail = await Teacher.findOne({_id: teacherID}).select("gmail");
-        if(!teachergmail)return res.status(400).json({message:"teacher doesnt exist"});
-
-        console.log("creating new item");
-        //creates new inventory item
-        const newInventoryItem = new Inventory({
-            itemName: ITEMNAME,
-            itemImgLink: imagecloudinarylink.secure_url,
-            forSaleAmmount: INITIALAMMOUNT,
-            totalAmmount: INITIALAMMOUNT,
-            gcashQrImageLink: gcashqrcloudinarylink.secure_url,
-            createdByWho: teachergmail,
-            price: PRICE
-        });
-
-        newInventoryItem.save()
-        .then(doc => console.log('User saved:', doc))
-        .catch(err => console.error('Error saving user:', err));
-
-        
-        if(newInventoryItem){
-                return res.status(200).json(newInventoryItem);
-        }else{
-            res.status(400).json({message:"Invalid user data"});
-
-        }
-        
-    }catch(error){
-        console.log("Error in createInventoryItem controller:", error.message);
-        res.status(500).json({message:"Internal server Error"});
-
-    }
-
-}
 export const seeProductList = async (req,res) =>{
     try{
         const inventory = await Inventory.find({isForSale:true});
@@ -367,7 +320,7 @@ export const getInventoryListByYear = async (req,res)=>{
         const {level} = req.body;
         console.log(level);
         if(level == "" ||!level) return res.status(404).json({message:"no specified level"});
-        const inventoryList = await Inventory.find({ year: { $in: ["all", level] }});
+        const inventoryList = await Inventory.find({deleted: false, $or: [ { year: level },{ year: "all" }]});
         if(inventoryList.length<=0) return res.status(404).json({message:"the list is empty"});
         return res.status(200).json(inventoryList);
         
@@ -437,28 +390,43 @@ export const getOrderItem = async (req,res)=>{
 
 export const deleteItem = async (req,res)=>{
     try{
-        const fs = require('fs');
-        const path = require('path');
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = dirname(__filename);
         const {itemID} = req.body;
         const item = await Inventory.findByIdAndUpdate(itemID, {deleted: true}, {new: true});
-
+        if (!item) return res.status(404).json({message: "Item not found"});
         //deletes the file image here
         const fileUrl = item.imageUrl;
         const url = new URL(fileUrl);
         const filename = path.basename(url.pathname);
-        const filePath = path.join(__dirname,'uploads', filename);
-        fs.unlink(filePath,(err)=>{
-            if(err){
-                return res.status(500).json({message:"Internal server error: error in deleting file"});
-            }else{
-                console.log("File deleted");
-            }
-        })
-        if(!item) return res.status(404).json({message: "Item not found"});
+        const filePath = path.join(__dirname, '..', '..', 'uploads', filename);
+        console.log("Resolved file path:", filePath);
+        await fs.unlink(filePath);
         return res.status(200).json(item);
 
     }catch(error){
-        console.log("error in deleteItem controller");
+        console.log("error in deleteItem controller", error);
         res.status(500).json({message:"Internal server Error"});    
+    }
+}
+export const getTeachers = async (req,res)=>{
+    try{
+        const teachers = await Teacher.find({superadmin:false});
+        return res.status(200).json(teachers);
+    }catch(error){
+        console.log("error in getTeachers controller");
+        res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const deleteTeacher = async (req, res)=>{
+    try{
+        console.log("delete id:", req.body);
+        const {ID} = req.body;
+        if(!ID) return res.status(400).json({message: "incomplete request"});
+        const teacher = await Teacher.findByIdAndDelete(ID);
+        return res.status(200).json(teacher);
+    }catch(error){
+        console.log("error in deleteTeacher controller");
+        res.status(500).json({message:"Internal server Error"});
     }
 }

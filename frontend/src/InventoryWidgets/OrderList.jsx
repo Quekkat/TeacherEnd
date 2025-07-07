@@ -31,7 +31,7 @@ const OrderList = ()=>{
                         <p>display order list tab here: ex search bar</p>
                     </div>
                     <div className="order-list-container">
-                        {orderList.length > 0 && orderList.map(order=>(<OrderListCard key={orderList._id} ORDER={order} TOGGLEPOPUP={()=>setShowPrint(true)}/>))}
+                        {orderList?.length > 0 && orderList.map(order=>(<OrderListCard key={order._id} ORDER={order} TOGGLEPOPUP={()=>setShowPrint(true)}/>))}
                     </div>
                 </div>
             </div>
