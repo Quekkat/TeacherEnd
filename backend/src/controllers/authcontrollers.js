@@ -1,5 +1,4 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Teacher from "../models/teachersmodel.js";
@@ -8,8 +7,7 @@ import OrderList from "../models/orderlistmodel.js";
 import Inventory from "../models/inventorymodel.js"
 import { generateToken } from "../lib/utility.js";
 import History from "../models/historymodel.js";
-import fs from 'fs/promises';
-import path from 'path';
+
 
 
 
@@ -287,21 +285,19 @@ export const addNewOrder= async(req,res)=>{
 //-----------------------------------------------new------------------------------------------------------------
 export const createInventory = async(req,res)=>{
     try{
-        const data = JSON.parse(req.body.data);
-        if(!req.file || !data) return res.status(400).json({message:" Invalid request"});
-        if(!data.ITEMNAME || !data.SIZE || !data.SECTION || !data.YEARLEVEL || !data.AMMOUNT) return res.status(400).json({message:"Invalid request"});
-        const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        const {Year,Name,Level,Small,Medium,Large,XLarge,XXLarge} = req.body;
+        if(!Year || !Name||!Level||!Small||!Medium||!Large|| !XLarge ||!XXLarge) return res.status(400).json({message:"Invalid request"});
 
+        const total = Small+ Medium + Large +XLarge + XXLarge;
         const newInventory = new Inventory({
-            name: data.ITEMNAME,
-            section: data.SECTION,
-            size: data.SIZE,
-            year: data.YEARLEVEL,
-            ammount: data.AMMOUNT,
-            ordered: 0,
-            preorder: 0,
-            imageUrl: imageUrl,
-            price: data.price,
+            ItemName: Name, ItemYear: Year, ItemLevel: Level,
+            SQ: Small, ST: Small,
+            MQ: Medium, MT: Medium,
+            LQ: Large, LT: Large,
+            XLQ: XLarge, XLT: XLarge,
+            XXLQ: XXLarge, XXLT: XXLarge,
+            OverallTotal: total,
+
         });
         if(newInventory){
             await newInventory.save();
@@ -320,7 +316,7 @@ export const getInventoryListByYear = async (req,res)=>{
         const {level} = req.body;
         console.log(level);
         if(level == "" ||!level) return res.status(404).json({message:"no specified level"});
-        const inventoryList = await Inventory.find({deleted: false, $or: [ { year: level },{ year: "all" }]});
+        const inventoryList = await Inventory.find({deleted: false, $or: [ { ItemLevel: level },{ ItemLevel: "all" }]});
         if(inventoryList.length<=0) return res.status(404).json({message:"the list is empty"});
         return res.status(200).json(inventoryList);
         
@@ -331,13 +327,22 @@ export const getInventoryListByYear = async (req,res)=>{
 }
 export const restock = async (req,res)=>{
     try{
-        const {id, ammount} = req.body;
+        const {id, SMALL, MEDIUM, LARGE, XL, XXL} = req.body;
+        const totalAdded = SMALL+ MEDIUM+LARGE+XL+XXL
         const targetInventoryItem = await Inventory.findById(id);
         if(!targetInventoryItem) return res.status(404).json({message:"Item no longer exist"});
-        const preordertoorder = Math.min(targetInventoryItem.preorder, ammount);
-        targetInventoryItem.ammount += ammount;
-        targetInventoryItem.preorder -= preordertoorder;
-        targetInventoryItem.ordered += preordertoorder;
+
+        targetInventoryItem.SQ += SMALL;
+        targetInventoryItem.ST += SMALL;
+        targetInventoryItem.MQ += MEDIUM;
+        targetInventoryItem.MT += MEDIUM;
+        targetInventoryItem.LQ += LARGE;
+        targetInventoryItem.LT += LARGE;
+        targetInventoryItem.XLQ += XL;
+        targetInventoryItem.XLT += XL;
+        targetInventoryItem.XXLQ += XXL;
+        targetInventoryItem.XXLT += XXL;
+        targetInventoryItem.OverallTotal += totalAdded;
         await targetInventoryItem.save();
         return res.status(200).json(targetInventoryItem);
     }catch(error){
@@ -347,28 +352,16 @@ export const restock = async (req,res)=>{
 }
 export const orderItem = async (req,res)=>{
     try{
-        const {itemID, Studentname} = req.body;
-        if (!Array.isArray(Studentname) || Studentname.length === 0) return res.status(400).json({ error: 'Users array is required and must not be empty' });
-
-        //finds selected item
-        const item = await Inventory.findById(itemID);
+        const {id, SMALL, MEDIUM, LARGE, XLARGE, XXLarge} = req.body;
+        if (!id || !SMALL ||! MEDIUM ||!LARGE||!XLARGE ||!XXLarge) return res.status(400).json({message: "Incomplete request"});
+        const total = SMALL + MEDIUM + LARGE +XLARGE + XXLarge;
+        const item = await Inventory.findById(id);
         if(!item) return res.status(404).json({message: "Item doesnt exist"});
-
-        //creates receipt
-        const multipleReceipts = Studentname.map(name=>({
-            itemID,
-            studentName: name,
-            itemName: item.name,
-            itemPrice: item.price,
-        }));
-        const createdReceipts = await OrderList.insertMany(multipleReceipts);
-
-        const amount = Studentname.length;
-        const available = item.ammount - item.ordered;
-        const orderable = Math.min(amount, available);
-        const preorder = amount - orderable;
-        item.ordered += orderable;
-        item.preorder += preorder;
+        item.SQ -= SMALL; item.SC += SMALL;
+        item.MQ -= MEDIUM; item.MC += MEDIUM;
+        item.LQ -= LARGE; item.LC += LARGE;
+        item.XLQ -= XLARGE; item.XLC += XLARGE;
+        item.XXLQ -= XXLarge; item.XXLC += XXLarge;
         await item.save();
         return res.status(201).json(createdReceipts);
 
@@ -390,18 +383,9 @@ export const getOrderItem = async (req,res)=>{
 
 export const deleteItem = async (req,res)=>{
     try{
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = dirname(__filename);
-        const {itemID} = req.body;
-        const item = await Inventory.findByIdAndUpdate(itemID, {deleted: true}, {new: true});
+        const {id} = req.body;
+        const item = await Inventory.findByIdAndUpdate(id, {deleted: true}, {new: true});
         if (!item) return res.status(404).json({message: "Item not found"});
-        //deletes the file image here
-        const fileUrl = item.imageUrl;
-        const url = new URL(fileUrl);
-        const filename = path.basename(url.pathname);
-        const filePath = path.join(__dirname, '..', '..', 'uploads', filename);
-        console.log("Resolved file path:", filePath);
-        await fs.unlink(filePath);
         return res.status(200).json(item);
 
     }catch(error){

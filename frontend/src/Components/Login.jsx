@@ -54,9 +54,7 @@ const Login = () => {
 
         <button type="submit" className="w-full h-11 border-none outline-none rounded-full bg-white text-black font-semibold cursor-pointer transition-all duration-300 hover:bg-gray-300">Login</button>
 
-        <div className="text-sm text-center mt-5">
-          <p className="text-white">Don't have an account? <Link className="text-white no-underline font-semibold hover:underline" to="/signin">Sign Up Instead</Link></p>
-        </div>
+        
       </form>
     </div>
   );
