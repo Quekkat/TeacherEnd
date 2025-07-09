@@ -15,6 +15,14 @@ export const useStore = create((set,get)=>({
     selectedDeletedTeacher:"",
     orderList:[],
     teachersList:[],
+    showPopup: false,
+    selectedReceipt:null,
+    setSelectedReceipt: (receipt)=>{
+        set({selectedReceipt: receipt});
+    },
+    togglePopup: ()=>{
+        set({showPopup: !get().showPopup});
+    },
     toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
     getOrderList: async()=>{
         try{
@@ -143,9 +151,18 @@ export const useStore = create((set,get)=>({
     createItem: async(item)=>{
         try{
             const data = await axiosInstance.post("/auth/newInventory", item);
-            console.log(data);
+            console.log(data.data);
             await get().getSpecifiedInventoryByYearLevel();
 
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    claimOrder: async(data)=>{
+        try{
+            const res = await axiosInstance.post("/auth/claimOrder", data);
+            console.log(res.data);
+            await get().getSpecifiedInventoryByYearLevel();
         }catch(error){
             console.log(error.response.data.message);
         }

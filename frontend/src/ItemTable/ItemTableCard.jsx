@@ -1,6 +1,21 @@
 import { useStore } from "../globalVariables";
-const ItemTableCard = ({item})=>{
+import { useState, useEffect } from "react";
+import CreateOrderSideWidget from "./CreateOrderSideWidget";
+import RestockSideWidget from "./RestockSideWidget";
+import ClaimOrder from "./ClaimOrder";
 
+const ItemTableCard = ({item})=>{
+    const {selectedReceipt, setSelectedReceipt,togglePopup} = useStore();
+    const [restock, toggleRestock]=useState(false);
+    const [createOrder, toggleCreateOrder] = useState(false);
+    const [claimOrder, toggleClaimOrder] = useState(false);
+
+    const handleReceipt =()=>{
+
+        setSelectedReceipt(item);
+        console.log(selectedReceipt);
+        togglePopup();
+    }
     
     return(
         <div className="item-table-card-base">
@@ -8,7 +23,7 @@ const ItemTableCard = ({item})=>{
             <p> Item: {item.ItemName}</p>
             <p> Schoolyear: {item.ItemYear} - {item.ItemYear -1}</p>
         </div>
-        <div className="item-table flexbox">
+        <div className="item-table-flexbox">
 
         <div className="item-table-container">
         <table>
@@ -58,13 +73,18 @@ const ItemTableCard = ({item})=>{
             
         </tbody>
         </table>
+        <div className="item-table-bottom-elements">
+            <button onClick={()=>toggleRestock(prev=>!prev)}> {restock ? 'Close Restock' : 'Restock'}</button>
+            <button onClick={()=>toggleCreateOrder(prev=>!prev)}> {createOrder? 'Close Create Order' : 'Create Order'}</button>
+            <button onClick={()=>toggleClaimOrder(prev=>!prev)}> {claimOrder? 'Close Claim Order' : 'Claim Order'}</button>
+
+            <button onClick={handleReceipt}> See receipt</button>
+        </div>
         </div>
 
-        <div className="item-table-bottom-elements">
-            <button> Restock</button>
-            <button> Create order</button>
-            <button> See receipt</button>
-        </div>
+        {restock && <RestockSideWidget item={item}/>}
+        {createOrder && <CreateOrderSideWidget item={item}/>}
+        {claimOrder && <ClaimOrder item={item}/>}
         </div>
         </div>
     )

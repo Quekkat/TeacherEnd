@@ -1,10 +1,15 @@
 import { useRef } from "react";
 import html2Canvas from 'html2canvas';
 import OrderSlip from "./OrderSlip";
+import { useStore } from "../globalVariables";
 
-const OrderListPopup = ({ HIDEPOPUP }) => {
+const OrderListPopup = () => {
+    const {togglePopup, selectedReceipt} = useStore();
     const childref = useRef(null);
-
+    const close = ()=>{
+        console.log("closing");
+        togglePopup();
+    }
     const handleDownload = async () => {
         if (!childref.current) return;
         // Temporarily change background for canvas capture
@@ -30,7 +35,7 @@ const OrderListPopup = ({ HIDEPOPUP }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4" onClick={HIDEPOPUP}>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4" onClick={close}>
             <div className="bg-gray-100 dark:bg-gray-900 p-6 rounded-lg shadow-2xl w-full max-w-4xl animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
                 {/* Receipt Component */}
                 <div className="border border-gray-300 dark:border-gray-700 p-2 rounded-lg">
@@ -46,7 +51,7 @@ const OrderListPopup = ({ HIDEPOPUP }) => {
                         Download Receipt
                     </button>
                     <button
-                        onClick={HIDEPOPUP}
+                        onClick={close}
                         className="px-6 py-2 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold rounded-lg shadow-md hover:bg-gray-400 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75 transition-transform transform hover:scale-105"
                     >
                         Close

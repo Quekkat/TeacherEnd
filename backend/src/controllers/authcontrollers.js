@@ -285,7 +285,7 @@ export const addNewOrder= async(req,res)=>{
 //-----------------------------------------------new------------------------------------------------------------
 export const createInventory = async(req,res)=>{
     try{
-        const {Year,Name,Level,Small,Medium,Large,XLarge,XXLarge} = req.body;
+        const {Year,Name,Level,Small,Medium,Large,XLarge,XXLarge, Price} = req.body;
         if(!Year || !Name||!Level||!Small||!Medium||!Large|| !XLarge ||!XXLarge) return res.status(400).json({message:"Invalid request"});
 
         const total = Small+ Medium + Large +XLarge + XXLarge;
@@ -297,6 +297,7 @@ export const createInventory = async(req,res)=>{
             XLQ: XLarge, XLT: XLarge,
             XXLQ: XXLarge, XXLT: XXLarge,
             OverallTotal: total,
+            Price: Price,
 
         });
         if(newInventory){
@@ -354,7 +355,6 @@ export const orderItem = async (req,res)=>{
     try{
         const {id, SMALL, MEDIUM, LARGE, XLARGE, XXLarge} = req.body;
         if (!id || !SMALL ||! MEDIUM ||!LARGE||!XLARGE ||!XXLarge) return res.status(400).json({message: "Incomplete request"});
-        const total = SMALL + MEDIUM + LARGE +XLARGE + XXLarge;
         const item = await Inventory.findById(id);
         if(!item) return res.status(404).json({message: "Item doesnt exist"});
         item.SQ -= SMALL; item.SC += SMALL;
@@ -363,11 +363,11 @@ export const orderItem = async (req,res)=>{
         item.XLQ -= XLARGE; item.XLC += XLARGE;
         item.XXLQ -= XXLarge; item.XXLC += XXLarge;
         await item.save();
-        return res.status(201).json(createdReceipts);
+        return res.status(201).json(item);
 
 
     }catch(error){
-        console.log("error in orderItem controller");
+        console.log("error in orderItem controller", error);
         res.status(500).json({message:"Internal server Error"});
     }
 }
@@ -412,5 +412,23 @@ export const deleteTeacher = async (req, res)=>{
     }catch(error){
         console.log("error in deleteTeacher controller");
         res.status(500).json({message:"Internal server Error"});
+    }
+}
+export const claimOrder = async (req,res)=>{
+    try{
+        const {id, SMALL, MEDIUM, LARGE,XL,XXL} = req.body;
+        if(!id) return res.status(404).json({message:"Incomplete request"});
+        const item = await Inventory.findById(id);
+        item.SC -= SMALL;
+        item.MC-= MEDIUM;
+        item.LC-= LARGE;
+        item.XLC -= XL;
+        item.XXLC -= XXL;
+        await item.save();
+        return res.status(200).json(item);
+    }catch(error){
+        console.log("error in claimOrder controller:", error);
+        res.status(500).json({message:"Internal server Error"});
+
     }
 }

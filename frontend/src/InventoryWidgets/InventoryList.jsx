@@ -1,17 +1,17 @@
 import { useStore } from "../globalVariables";
 import AddNewCard from "./AddNewCard";
-import InventoryListCard from "./InventoryListCard";
 import { useState, useEffect } from "react";
 import ItemTableCard from "../ItemTable/ItemTableCard";
+import OrderListPopup from "./OrderListPopup";
 
 const InventoryList = () => {
-  const { specifiedLevel, inventoryList } = useStore();
+  const { specifiedLevel, inventoryList,showPopup, togglePopup  } = useStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredInventory, setFilteredInventory] = useState([]);
 
   useEffect(() => {
     const filtered = inventoryList?.filter((item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      item.ItemName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredInventory(filtered);
   }, [searchQuery, inventoryList]);
@@ -20,8 +20,13 @@ const InventoryList = () => {
     e.preventDefault();
   };
 
+
+
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="inventory-list-main-content">
+
       {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white capitalize">
@@ -76,6 +81,8 @@ const InventoryList = () => {
         )}
         <AddNewCard />
       </div>
+    </div>
+        {showPopup && <OrderListPopup/>}
     </div>
   );
 };

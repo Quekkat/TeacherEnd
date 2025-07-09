@@ -2,7 +2,7 @@ import { useState, forwardRef } from "react";
 import { useStore } from "../globalVariables";
     
 const OrderSlip = forwardRef((props, ref) => {
-    const { selectedOrder } = useStore();
+    const { selectedOrder,selectedReceipt } = useStore();
 
     const getFormattedDate = () => {
         const date = new Date();
@@ -42,12 +42,12 @@ const OrderSlip = forwardRef((props, ref) => {
                         </div>
                         <div className="text-right">
                             <p className="mb-2"><span className="font-bold text-gray-600">Amount:</span></p>
-                            <p className="text-2xl font-bold">₱{selectedOrder?.itemPrice?.toFixed(2)}</p>
+                            <p className="text-2xl font-bold">₱{selectedReceipt?.Price?.toFixed(2)}</p>
                         </div>
                     </div>
                     <div className="mt-6">
                         <p className="mb-2"><span className="font-bold text-gray-600">For Payment Of:</span></p>
-                        <p className="text-lg font-medium">{selectedOrder?.itemName}</p>
+                        <p className="text-lg font-medium">{selectedReceipt?.ItemName}</p>
                     </div>
                 </div>
 

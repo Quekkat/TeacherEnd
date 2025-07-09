@@ -80,6 +80,10 @@ const userSchema = new mongoose.Schema({
     OverallTotal :{
         type: Number,
         require: true,
+    },
+    Price:{
+        type: Number,
+        default: 100,
     }
 
 }, {timestamps:true});
