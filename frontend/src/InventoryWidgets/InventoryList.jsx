@@ -2,6 +2,7 @@ import { useStore } from "../globalVariables";
 import AddNewCard from "./AddNewCard";
 import InventoryListCard from "./InventoryListCard";
 import { useState, useEffect } from "react";
+import ItemTableCard from "../ItemTable/ItemTableCard";
 
 const InventoryList = () => {
   const { specifiedLevel, inventoryList } = useStore();
@@ -66,7 +67,7 @@ const InventoryList = () => {
       <div className="flex flex-col items-center gap-6">
         {filteredInventory?.length > 0 ? (
           filteredInventory.map((inventory) => (
-            <InventoryListCard key={inventory._id} INVENTORY={inventory} />
+            <ItemTableCard key={inventory._id} item={inventory} />
           ))
         ) : (
           <p className="text-gray-500 dark:text-gray-400 text-lg">

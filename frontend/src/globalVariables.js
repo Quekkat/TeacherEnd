@@ -93,31 +93,30 @@ export const useStore = create((set,get)=>({
             set({inventoryList: null});
         }
     },
-    restockItem: async (itemid, ammount)=>{
+    restockItem: async (data)=>{
         try{
-            const data = {
-                id: itemid,
-                ammount: ammount
-            };
             const res = await axiosInstance.post("/auth/restock", data);
             console.log(res.data);
+            await get().getSpecifiedInventoryByYearLevel();
         }catch(error){
             console.log(error.response.data.message);
         }
     },
     orderItem: async (data)=>{
         try{
-            const res = await axiosInstance.post("/auth/orderItem", data);
+            const res = await axiosInstance.post("/auth/makeOrder", data);
             console.log(res.data);
+            await get().getSpecifiedInventoryByYearLevel();
         }catch(error){
             console.log(error.response.data.message);
         }
     },
     removeItem: async (id) =>{
         try{
-            const data = {itemID: id}
-            const res = await axiosInstance.post("/auth/deleteItem", data);
+            const data = {id: id}
+            const res = await axiosInstance.post("/auth/delete", data);
             console.log(res.data);
+            await get().getSpecifiedInventoryByYearLevel();
         }catch(error){
             console.log(error.response.data.message);   
         }
@@ -137,6 +136,16 @@ export const useStore = create((set,get)=>({
             const data = {ID: id};
             const res = await axiosInstance.post("/auth/deleteTeachers", data);
             console.log(res.data);
+        }catch(error){
+            console.log(error.response.data.message);
+        }
+    },
+    createItem: async(item)=>{
+        try{
+            const data = await axiosInstance.post("/auth/newInventory", item);
+            console.log(data);
+            await get().getSpecifiedInventoryByYearLevel();
+
         }catch(error){
             console.log(error.response.data.message);
         }

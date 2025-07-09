@@ -6,17 +6,11 @@ import './input-number.css';
 const AddNewInventory =()=>{
     const {setWidgetTab, setSpecifiedLevel, specifiedLevel, getSpecifiedInventoryByYearLevel} =useStore();
     var previousLevel;
-    const [selectedSize, setSelectedSize] = useState("any");
     const [initialStockAmmount, setInitialStockAmmount]= useState(0);
     const [section, setSection] = useState("all");
     const [selectedYear, setSelectedYear] = useState("kindergarten");
     const [itemName, setItemName] = useState("");
     const [price, setPrice] = useState(0);
-
-
-    const handleSizeChange = (e)=>{
-        setSelectedSize(e.target.value);
-    }
     const handleSectionChange = (e)=>{
         setSection(e.target.value);
     }
@@ -32,49 +26,12 @@ const AddNewInventory =()=>{
         setSpecifiedLevel(previousLevel);
         setWidgetTab("inventory-list");
     }
-    const [imagePreview, setImagePreview] = useState(null);
-    const [imageFile, setImageFile] = useState(null); // actual image file
-    const fileInputRef = useRef(null);
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImagePreview(URL.createObjectURL(file)); // used for background preview
-            setImageFile(file); // store file for uploading
-        }
-    };
-
 
     const handleClick = () => {
         fileInputRef.current.click(); // triggers hidden input
     };
 
     const handleCreateInventory = async()=>{
-        try{
-            const data = {
-                ITEMNAME:itemName,
-                SIZE: selectedSize,
-                SECTION: section,
-                YEARLEVEL: selectedYear,
-                AMMOUNT: Number(initialStockAmmount) || 0,
-                price: Number(price) || 0,
-            }
-            const formData = new FormData();
-            formData.append("data", JSON.stringify(data));
-            formData.append("itemImage", imageFile);
-            const res = await axiosInstance.post("/auth/createInventory", formData,{
-                headers:{
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log(res.data);
-
-            await getSpecifiedInventoryByYearLevel();
-            setWidgetTab("inventory-list");
-
-        }catch(error){
-            console.log(error.response.data.message);
-        }
     }
 
 
@@ -89,30 +46,7 @@ const AddNewInventory =()=>{
 
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">Add New Inventory Item</h2>
             
-            {/* Image Upload */}
-            <div className="flex flex-col items-center mb-8">
-                <input 
-                    type="file" 
-                    accept="image/*" 
-                    ref={fileInputRef} 
-                    style={{display: "none"}} 
-                    onChange={handleImageChange} 
-                    name="itemImage"
-                />
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Item Image</label>
-                <div 
-                    onClick={handleClick} 
-                    className="w-full h-64 bg-gray-200 dark:bg-gray-800 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-lg cursor-pointer bg-contain bg-no-repeat bg-center flex items-center justify-center text-gray-500 dark:text-gray-400 hover:border-gray-500 dark:hover:border-gray-400 transition-colors duration-200"
-                    style={{ backgroundImage: `url(${imagePreview || ""})`}}
-                >
-                    {!imagePreview && (
-                        <div className="text-center">
-                            <span className="material-symbols-rounded text-6xl">add_photo_alternate</span>
-                            <p className="font-semibold text-gray-600 dark:text-gray-300 mt-2">Click to upload image</p>
-                        </div>
-                    )}
-                </div>
-            </div>
+
 
             {/* Form Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -127,21 +61,7 @@ const AddNewInventory =()=>{
                     />
                 </div>
 
-                {/* Item Size */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Size</label>
-                    <select 
-                        value={selectedSize} 
-                        onChange={handleSizeChange}
-                        className="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
-                    >
-                        <option value="any">Any</option>
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
-                        <option value="extra-large">Extra Large</option>
-                    </select>
-                </div>
+                
 
                 {/* Section */}
                 <div>
@@ -169,7 +89,8 @@ const AddNewInventory =()=>{
                         <option value="all">All levels</option>
                         <option value="kindergarten">Kindergarten</option>
                         <option value="elementary">Elementary</option>
-                        <option value="highschool">Highschool</option>
+                        <option value="JHS">Junior Highschool</option>
+                        <option value="SHS">Senior Highschool</option>
                         <option value="college">College</option>
                     </select>
                 </div>
