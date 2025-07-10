@@ -17,8 +17,12 @@ export const useStore = create((set,get)=>({
     teachersList:[],
     showPopup: false,
     selectedReceipt:null,
+    newlyCreatedItemYear: null, // Track year of newly created item for navigation
     setSelectedReceipt: (receipt)=>{
         set({selectedReceipt: receipt});
+    },
+    setNewlyCreatedItemYear: (year) => {
+        set({newlyCreatedItemYear: year});
     },
     togglePopup: ()=>{
         set({showPopup: !get().showPopup});
@@ -152,6 +156,8 @@ export const useStore = create((set,get)=>({
         try{
             const data = await axiosInstance.post("/auth/newInventory", item);
             console.log(data.data);
+            // Store the year of the newly created item for navigation
+            set({newlyCreatedItemYear: item.Year});
             await get().getSpecifiedInventoryByYearLevel();
 
         }catch(error){
