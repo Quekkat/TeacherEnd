@@ -8,12 +8,34 @@ const InventoryList = () => {
   const { specifiedLevel, inventoryList,showPopup, togglePopup  } = useStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredInventory, setFilteredInventory] = useState([]);
+  const [inventoryByYear, setInventoryByYear] = useState({});
 
   useEffect(() => {
     const filtered = inventoryList?.filter((item) =>
       item.ItemName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredInventory(filtered);
+
+    // Group filtered inventory by year
+    const groupedByYear = {};
+    filtered?.forEach((item) => {
+      // Use ItemYear field from the item, or default to current year if not available
+      const year = item.ItemYear || new Date().getFullYear();
+      
+      if (!groupedByYear[year]) {
+        groupedByYear[year] = [];
+      }
+      groupedByYear[year].push(item);
+    });
+
+    // Sort years in descending order (newest first)
+    const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
+    const sortedGroupedByYear = {};
+    sortedYears.forEach(year => {
+      sortedGroupedByYear[year] = groupedByYear[year];
+    });
+
+    setInventoryByYear(sortedGroupedByYear);
   }, [searchQuery, inventoryList]);
 
   const handleSearch = (e) => {
@@ -29,11 +51,11 @@ const InventoryList = () => {
 
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white capitalize">
-          Inventory for: {specifiedLevel}
+        <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white capitalize">
+          {specifiedLevel} Inventory Management
         </h1>
         <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-          Browse and manage items below.
+          Organized by school year • Search and manage all items
         </p>
       </div>
 
@@ -68,18 +90,63 @@ const InventoryList = () => {
         </form>
       </div>
 
-      {/* Inventory Cards Column */}
-      <div className="flex flex-col items-center gap-6">
-        {filteredInventory?.length > 0 ? (
-          filteredInventory.map((inventory) => (
-            <ItemTableCard key={inventory._id} item={inventory} />
+      {/* Inventory by Year */}
+      <div className="space-y-12">
+        {Object.keys(inventoryByYear).length > 0 ? (
+          Object.entries(inventoryByYear).map(([year, yearItems]) => (
+            <div key={year} className="year-section">
+              {/* Year Header */}
+              <div className="mb-6">
+                {/* School Year Text above the year badge */}
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white capitalize mb-2">
+                    Inventory for: {specifiedLevel} ({year}-{parseInt(year) + 1})
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-400">
+                    School Year {year}-{parseInt(year) + 1} • Browse and manage items below
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-center mb-4">
+                  <div className="flex-grow h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+                  <div className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full shadow-lg">
+                    <h3 className="text-xl font-bold text-white">
+                      {year}-{parseInt(year) + 1}
+                    </h3>
+                  </div>
+                  <div className="flex-grow h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+                </div>
+                <p className="text-center text-gray-600 dark:text-gray-400">
+                  {yearItems.length} item{yearItems.length !== 1 ? 's' : ''} in this school year
+                </p>
+              </div>
+
+              {/* Year Items */}
+              <div className="flex flex-col items-center gap-6">
+                {yearItems.map((inventory) => (
+                  <ItemTableCard key={inventory._id} item={inventory} />
+                ))}
+              </div>
+            </div>
           ))
         ) : (
-          <p className="text-gray-500 dark:text-gray-400 text-lg">
-            No items found matching your search.
-          </p>
+          <div className="text-center py-16">
+            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+              <span className="material-symbols-rounded text-4xl text-gray-400">inventory_2</span>
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">
+              No items found matching your search.
+            </p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm">
+              Try adjusting your search terms or add new inventory items.
+            </p>
+          </div>
         )}
-        <AddNewCard />
+        
+        {/* Add New Card - Always at the bottom */}
+        <div className="flex justify-center mt-8">
+          <AddNewCard />
+        </div>
       </div>
     </div>
         {showPopup && <OrderListPopup/>}
