@@ -354,9 +354,12 @@ export const restock = async (req,res)=>{
 export const orderItem = async (req,res)=>{
     try{
         const {id, SMALL, MEDIUM, LARGE, XLARGE, XXLarge} = req.body;
-        if (!id || !SMALL ||! MEDIUM ||!LARGE||!XLARGE ||!XXLarge) return res.status(400).json({message: "Incomplete request"});
+        if (!id) return res.status(400).json({message: "Incomplete request"});
         const item = await Inventory.findById(id);
         if(!item) return res.status(404).json({message: "Item doesnt exist"});
+
+        if(SMALL>item.SQ||MEDIUM>item.MQ||LARGE>item.LQ||XXLarge>item.XXLQ) return res.status(400).json({message:"You dont have that enough items"});
+        //adds the item to the selection
         item.SQ -= SMALL; item.SC += SMALL;
         item.MQ -= MEDIUM; item.MC += MEDIUM;
         item.LQ -= LARGE; item.LC += LARGE;
@@ -419,6 +422,9 @@ export const claimOrder = async (req,res)=>{
         const {id, SMALL, MEDIUM, LARGE,XL,XXL} = req.body;
         if(!id) return res.status(404).json({message:"Incomplete request"});
         const item = await Inventory.findById(id);
+        if(!item) return res.status(404).json({message:"Item doesnt exist"});
+
+        if(SMALL>item.SC|| MEDIUM>item.MC||LARGE>item.LC||XL>item.XLC||XXL>item.XXLC) return res.status(400).json({message:"You cant claim nothing"});
         item.SC -= SMALL;
         item.MC-= MEDIUM;
         item.LC-= LARGE;
