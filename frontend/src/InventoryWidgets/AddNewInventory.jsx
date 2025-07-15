@@ -6,60 +6,103 @@ import './input-number.css';
 const AddNewInventory = () => {
     const {createItem, setWidgetTab} = useStore();
     const [itemName, setItemName] = useState("");
-    const [schoolyear, setSchoolYear] = useState(2012);
+    const [schoolyear, setSchoolYear] = useState("2012");
     const [level, setLevel] = useState("all");
-    const [small, setSmall] = useState(0);
-    const [medium, setMedium] = useState(0);
-    const [large, setLarge] = useState(0);
-    const [xlarge, setxlarge] = useState(0);
-    const [xxlarge, setxxlarge] = useState(0);
-    const [price, setPrice] = useState(100);
+    const [small, setSmall] = useState("0");
+    const [medium, setMedium] = useState("0");
+    const [large, setLarge] = useState("0");
+    const [xlarge, setxlarge] = useState("0");
+    const [xxlarge, setxxlarge] = useState("0");
+    const [price, setPrice] = useState("100");
 
     const handleCreateItem = async () => {
         const data = {
-            Year: schoolyear,
+            Year: Number(schoolyear) || 0,
             Name: itemName,
             Level: level,
-            Small: small,
-            Medium: medium,
-            Large: large,
-            XLarge: xlarge,
-            XXLarge: xxlarge,
-            Price: price,
+            Small: Number(small) || 0,
+            Medium: Number(medium) || 0,
+            Large: Number(large) || 0,
+            XLarge: Number(xlarge) || 0,
+            XXLarge: Number(xxlarge) || 0,
+            Price: Number(price) || 0,
         };
         console.log(data);
         await createItem(data);
         setWidgetTab("inventory-list");
     }
 
-    const NumberInput = ({ value, onChange, label, min = 0 }) => (
-        <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}:</label>
-            <div className="flex items-center space-x-2">
-                <button 
-                    type="button"
-                    onClick={() => onChange(Math.max(min, value - 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-semibold transition-colors"
-                >
-                    -
-                </button>
-                <input 
-                    type="number" 
-                    value={value} 
-                    onChange={(e) => onChange(Math.max(min, Number(e.target.value)))}
-                    className="w-20 px-3 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    min={min}
-                />
-                <button 
-                    type="button"
-                    onClick={() => onChange(value + 1)}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-semibold transition-colors"
-                >
-                    +
-                </button>
+    const NumberInput = ({ value, onChange, label, min = 0 }) => {
+        const inputRef = useRef(null);
+        
+        const handleInputChange = (e) => {
+            const val = e.target.value;
+            // Allow empty string or only digits (changed from /^\d+$/ to /^\d*$/)
+            if (val === '' || /^\d*$/.test(val)) {
+                onChange(val);
+            }
+        };
+
+        const handleKeyDown = (e) => {
+            // Allow backspace, delete, arrow keys, tab, etc.
+            const allowedKeys = [
+                'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 
+                'Tab', 'Home', 'End', 'Enter'
+            ];
+            
+            if (allowedKeys.includes(e.key)) {
+                return; // Allow these keys
+            }
+            
+            // Only allow digits
+            if (!/^\d$/.test(e.key)) {
+                e.preventDefault();
+            }
+        };
+
+        const handleDecrement = () => {
+            const currentVal = value === '' ? min : Number(value);
+            const newVal = Math.max(min, currentVal - 1);
+            onChange(newVal === 0 ? '' : newVal.toString());
+        };
+
+        const handleIncrement = () => {
+            const currentVal = value === '' ? min : Number(value);
+            const newVal = currentVal + 1;
+            onChange(newVal.toString());
+        };
+
+        return (
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}:</label>
+                <div className="flex items-center space-x-2">
+                    <button 
+                        type="button"
+                        onClick={handleDecrement}
+                        className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-semibold transition-colors"
+                    >
+                        -
+                    </button>
+                    <input 
+                        ref={inputRef}
+                        type="text" 
+                        value={value}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
+                        inputMode="numeric"
+                        className="w-20 px-3 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                    <button 
+                        type="button"
+                        onClick={handleIncrement}
+                        className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-gray-700 dark:text-gray-300 font-semibold transition-colors"
+                    >
+                        +
+                    </button>
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 px-4">
@@ -142,7 +185,7 @@ const AddNewInventory = () => {
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                 <div>
                                     <p className="text-gray-600 dark:text-gray-400">Total Stock:</p>
-                                    <p className="font-semibold text-gray-900 dark:text-white">{small + medium + large + xlarge + xxlarge}</p>
+                                    <p className="font-semibold text-gray-900 dark:text-white">{(Number(small)||0)+(Number(medium)||0)+(Number(large)||0)+(Number(xlarge)||0)+(Number(xxlarge)||0)}</p>
                                 </div>
                                 <div>
                                     <p className="text-gray-600 dark:text-gray-400">Price:</p>
